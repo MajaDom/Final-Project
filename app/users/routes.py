@@ -17,7 +17,12 @@ def get_all_users():
 
 @user_router.get("/get-user-by-id", response_model=UserSchema)
 def get_user_by_id(user_id: str):
-    return UserController.update_user_by_id(user_id=user_id)
+    return UserController.get_user_by_id(user_id=user_id)
+
+
+@user_router.get("/get-user-by-user-name", response_model=UserSchema)
+def get_user_by_id(user_name: str):
+    return UserController.get_user_by_name(user_name=user_name)
 
 
 @user_router.put("/update-user-data", response_model=UserSchema)

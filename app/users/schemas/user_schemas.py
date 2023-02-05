@@ -6,7 +6,6 @@ class UserSchema(BaseModel):
     user_id: UUID4
     user_name: str
     email: str
-    password: str
     is_admin: bool
     is_active: bool
 
