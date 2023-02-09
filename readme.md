@@ -15,7 +15,7 @@
 * oprema (zaduzivanje, servisi)
 * vozila (zaduzivanje, servisi)
 
-### Lista previdjenih ruta:
+### Lista predvidjenih ruta:
 * Create, read, update i delete za svaki od entiteta unutar baze podataka
 * Izvestaj ukupnih ulaznih troskova po mesecima ili u odredjenom vremenskom okviru
 * Izvestaj ukupnih izlaznih troskova po mesecima ili u odredjenom vremenskom okviru
