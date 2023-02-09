@@ -11,14 +11,14 @@ class UserRepository:
 
     def create_user(self, user_name: str, email: str, password: str) -> User:
         try:
-            if user_name is None or email is None or password is None:
-                raise UserNotFoundException(message="All fields are mandatory", code=400)
-            user = User(user_name, email, password)
+            user = User(user_name, email, password) # todo how to raise custom error, geting 422
             self.db.add(user)
             self.db.commit()
             self.db.refresh(user)
             return user
         except IntegrityError as e:
+            raise e
+        except Exception as e:
             raise e
 
     def read_all_users(self) -> list[User]:

@@ -5,6 +5,7 @@ from app.db import Base
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = {'mysql_engine': 'InnoDB'}
     user_id = Column(String(50), primary_key=True, default=uuid4)
     user_name = Column(String(50), unique=True, nullable=False)
     email = Column(String(100), unique=True, nullable=False)

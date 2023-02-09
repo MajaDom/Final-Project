@@ -1,12 +1,21 @@
-from uuid import uuid4
+
 from app.db import Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, String, ForeignKey, Integer
 
 
 class Employee(Base):
     __tablename__ = "employees"
-    id_employee = Column(String(50), primary_key=True, default=uuid4)
-    first_name = Column(String(50))
-    last_name = Column(String(50))
+    __table_args__ = {'mysql_engine': 'InnoDB'}
 
-    user_id = Column(String(50), ForeignKey("users.user_id"))
+    id_employee = Column(Integer, primary_key=True, autoincrement=True)
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    contact = Column(String(50), unique=True, nullable=False, )
+
+    user_id = Column(String(50), ForeignKey("users.user_id"), nullable=True)
+
+    def __init__(self, first_name, last_name, contact, user_id):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.contact = contact
+        self.user_id = user_id

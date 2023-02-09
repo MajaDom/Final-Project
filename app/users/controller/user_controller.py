@@ -1,7 +1,6 @@
 from app.users.services import UserServices
 from fastapi import HTTPException, Response
 from app.users.exceptions import *
-from sqlalchemy.exc import IntegrityError
 
 
 class UserController:
@@ -11,7 +10,7 @@ class UserController:
         try:
             user = UserServices.create_user(user_name=user_name, email=email, password=password)
             return user
-        except UserNotFoundException as e:
+        except UserMissingDataException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
@@ -69,7 +68,7 @@ class UserController:
     def delete_user_by_id(user_id):
         try:
             UserServices.delete_user_by_id(user_id=user_id)
-            return Response(content=f"User with id {user_id} successfully deleted.")
+            return Response(status_code=200, content=f"User with id {user_id} successfully deleted.")
         except UserNotFoundException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:

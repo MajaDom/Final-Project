@@ -1,5 +1,7 @@
+
 from pydantic import BaseModel
 from pydantic import UUID4, EmailStr
+from pydantic.typing import Optional
 
 
 class UserSchema(BaseModel):
@@ -17,6 +19,15 @@ class UserSchemaIN(BaseModel):
     user_name: str
     email: EmailStr
     password: str
+
+    class Config:
+        orm_mode = True
+
+
+class UserSchemaUpdate(BaseModel):
+    user_name: Optional[str]
+    email: Optional[EmailStr]
+    password: Optional[str]
 
     class Config:
         orm_mode = True
