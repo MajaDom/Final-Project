@@ -1,1 +1,2 @@
 from .client_schemas import ClientSchema, ClientSchemaUpdate, ClientSchemaIN
+from .client_contracts_schemas import ClientContractSchemaUpdate, ClientContractSchemaIN, ClientContractSchema

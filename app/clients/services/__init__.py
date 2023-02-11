@@ -1,1 +1,2 @@
 from .client_services import ClientService
+from .client_contract_services import ClientContractService

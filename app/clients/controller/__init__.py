@@ -1,1 +1,3 @@
 from .client_controller import ClientController
+from .client_contract_controller import ClientContractController
+

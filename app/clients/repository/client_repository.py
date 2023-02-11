@@ -50,7 +50,7 @@ class ClientRepository:
         self.db.refresh(client)
         return client
 
-    def delete_client_by_id(self, client_id: str):
+    def delete_client_by_id(self, client_id: int):
         client = self.db.query(Client).filter(Client.client_id == client_id).first()
         if client is None:
             raise ClientWithIdDoesNotExistInTheDatabaseException(
