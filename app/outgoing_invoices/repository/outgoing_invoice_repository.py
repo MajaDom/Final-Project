@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.invoices.models import OutgoingInvoice
-from app.invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException
+from app.outgoing_invoices.models import OutgoingInvoice
+from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException
 
 
 class OutgoingInvoiceRepository:
@@ -27,13 +27,13 @@ class OutgoingInvoiceRepository:
         return outgoing_invoice
 
     def read_outgoing_invoice_by_id(self, outgoing_invoice_id: int) -> OutgoingInvoice:
-        outgoing_invoice_id = self.db.query(OutgoingInvoice).filter(
+        outgoing_invoice = self.db.query(OutgoingInvoice).filter(
             OutgoingInvoice.outgoing_invoice_id == outgoing_invoice_id).first()
-        if outgoing_invoice_id is None:
+        if outgoing_invoice is None:
             raise OutgoingInvoiceDoesNotExistInTheDatabaseException(
                 message=f'Invoice with id {outgoing_invoice_id} not in the database.',
                 code=400)
-        return outgoing_invoice_id
+        return outgoing_invoice
 
     def update_outgoing_invoice_by_id(self, outgoing_invoice_id: int, client_id: int = None,
                                       reference_code_invoice: str = None,

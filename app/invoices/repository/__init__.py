@@ -1,2 +1,0 @@
-from .outgoing_invoice_repository import OutgoingInvoiceRepository
-

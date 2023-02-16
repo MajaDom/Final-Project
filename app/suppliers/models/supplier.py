@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String, Boolean
 
 
 class Supplier(Base):
-    __tablename__ = "supliers"
+    __tablename__ = "suppliers"
     __table_args__ = {'mysql_engine': 'InnoDB'}
 
     supplier_id = Column(Integer, primary_key=True, autoincrement=True)

@@ -1,5 +1,5 @@
-from app.invoices.services import OutgoingInvoicesService
-from app.invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException
+from app.outgoing_invoices.services import OutgoingInvoicesService
+from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException
 from fastapi import HTTPException, Response
 
 
@@ -39,16 +39,6 @@ class OutgoingInvoiceController:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
-
-    # @staticmethod
-    # def get_outgoing_invoice_by_name(outgoing_invoice_id: str):
-    #     try:
-    #         outgoing_invoice = OutgoingInvoicesService.re(client_name=client_name)
-    #         return client
-    #     except ClientWithIdDoesNotExistInTheDatabaseException as e:
-    #         raise HTTPException(status_code=e.code, detail=e.message)
-    #     except Exception as e:
-    #         raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
     @staticmethod
     def update_outgoing_invoices_by_id(outgoing_invoice_id: int, client_id: int = None,

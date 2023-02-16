@@ -1,5 +1,5 @@
 from app.db import SessionLocal
-from app.invoices.repository import OutgoingInvoiceRepository
+from app.outgoing_invoices.repository import OutgoingInvoiceRepository
 
 
 class OutgoingInvoicesService:
