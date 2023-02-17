@@ -8,7 +8,7 @@ class ClientContractRepository:
         self.db = db
 
     def create_client_contract(self, contract_code: str, start_date: str, client_id: int,
-                               contract_description: str = None,end_date: str = None,) -> ClientContract:
+                               contract_description: str = None, end_date: str = None) -> ClientContract:
         try:
             client_contract = ClientContract(contract_code=contract_code, start_date=start_date,
                                              contract_description=contract_description, end_date=end_date,
