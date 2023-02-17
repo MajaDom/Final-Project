@@ -27,6 +27,9 @@ class Equipment(Base):
         self.net = net
         self.vat = vat
         self.date_of_purchase = datetime.strptime(date_of_purchase, "%Y-%m-%d")
-        self.date_of_transaction = datetime.strptime(date_of_transaction, "%Y-%m-%d")
+        if date_of_transaction is None:
+            self.date_of_transaction = date_of_transaction
+        else:
+            self.date_of_transaction = datetime.strptime(date_of_transaction, "%Y-%m-%d")
         self.shop_name = shop_name
 

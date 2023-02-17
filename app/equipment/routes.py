@@ -1,8 +1,8 @@
 from fastapi import APIRouter
-from app.equipment.controller import EquipmentController
+from app.equipment.controller import EquipmentController, AssignedEquipmentController
 from app.equipment.schemas import *
 
-equipment_router = APIRouter(tags=["Equipment"], prefix="/api/client")
+equipment_router = APIRouter(tags=["Equipment"], prefix="/api/equipment")
 
 
 @equipment_router.post("/create-new-equipment", response_model=EquipmentSchema)
@@ -50,3 +50,46 @@ def update_equipment_by_id(equipment_id: int, equipment: EquipmentSchemaUpdate):
 @equipment_router.delete("/delete-equipment-by-id")
 def delete_equipment_by_id(equipment_id: int):
     return EquipmentController.delete_equipment_by_id(equipment_id)
+
+
+assigned_equipment_router = APIRouter(tags=["Assigned Equipment"], prefix="/api/assigned-equipment")
+
+
+@assigned_equipment_router.post("/create-new-assigned-equipment", response_model=AssignedEquipmentSchema)
+def create_client(assigned_equipment: AssignedEquipmentSchemaIN):
+    return AssignedEquipmentController.create_assigned_equipment(start_date=assigned_equipment.start_date,
+                                                                 id_employee=assigned_equipment.id_employee,
+                                                                 equipment_id=assigned_equipment.equipment_id,
+                                                                 end_date=assigned_equipment.end_date)
+
+
+@assigned_equipment_router.get("/get-all-equipment-history-of-assigned-equipment",
+                               response_model=list[AssignedEquipmentSchema])
+def get_all_history_of_assigned_equipment():
+    return AssignedEquipmentController.read_all_history_of_assigned_equipment()
+
+
+@assigned_equipment_router.get("/get-all-currently-assigned-equipment",
+                               response_model=list[AssignedEquipmentSchema])
+def get_all_currently_assigned_equipment():
+    return AssignedEquipmentController.read_all_currently_assigned_equipment()
+
+
+@assigned_equipment_router.get("/get-currently-assigned-equipment-by-id", response_model=AssignedEquipmentSchema)
+def get_currently_assigned_equipment_by_id(assigned_equipment_id: int):
+    return AssignedEquipmentController.read_currently_assigned_equipment_by_id(
+        assigned_equipment_id=assigned_equipment_id)
+
+
+@assigned_equipment_router.put("/update-assigned-equipment-by-id", response_model=AssignedEquipmentSchema)
+def update_equipment_by_id(assigned_equipment_id: int, assigned_equipment: AssignedEquipmentSchemaUpdate):
+    return AssignedEquipmentController.update_equipment_by_id(assigned_equipment_id=assigned_equipment_id,
+                                                              start_date=assigned_equipment.start_date,
+                                                              end_date=assigned_equipment.end_date,
+                                                              id_employee=assigned_equipment.id_employee,
+                                                              equipment_id=assigned_equipment.equipment_id)
+
+
+@assigned_equipment_router.delete("/delete-assigned-equipment-by-id")
+def delete_assigned_equipment_by_id(assigned_equipment_id: int):
+    return AssignedEquipmentController.delete_assigned_equipment_by_id(assigned_equipment_id=assigned_equipment_id)

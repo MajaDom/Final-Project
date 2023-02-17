@@ -35,8 +35,7 @@ class EquipmentRepository:
         return equipment
 
     def read_equipment_by_category(self, category: str) -> list[Equipment]:
-        equipment = self.db.query(Equipment).filter(
-            Equipment.category.like(f"%{category}%")).all()
+        equipment = self.db.query(Equipment).filter(Equipment.category.like(f"%{category}%")).all()
         if equipment is None:
             raise EquipmentDoesNotExistInTheDatabaseException(
                 message=f'Category containing {category} does not exist in the database.',
@@ -55,8 +54,7 @@ class EquipmentRepository:
                                category: str = None, serial_number: str = None, net: float = None,
                                vat: float = None, date_of_purchase: str = None, shop_name: str = None,
                                date_of_transaction: str = None) -> Equipment:
-        equipment = self.db.query(Equipment).filter(
-            Equipment.equipment_id == equipment_id).first()
+        equipment = self.db.query(Equipment).filter(Equipment.equipment_id == equipment_id).first()
 
         if equipment is None:
             raise EquipmentDoesNotExistInTheDatabaseException(

@@ -1,1 +1,2 @@
 from .equipment_controller import EquipmentController
+from .assigned_equipment_controller import AssignedEquipmentController

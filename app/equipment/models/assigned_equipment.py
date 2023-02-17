@@ -1,5 +1,5 @@
 from app.db import Base
-from sqlalchemy import Column, String, Integer, Date, ForeignKey, Boolean, Float, ForeignKey
+from sqlalchemy import Column, Integer, Date, ForeignKey
 from datetime import datetime
 
 
@@ -16,7 +16,10 @@ class AssignedEquipment(Base):
 
     def __init__(self, start_date, end_date, id_employee, equipment_id):
         self.start_date = datetime.strptime(start_date, "%Y-%m-%d")
-        self.end_date = datetime.strptime(end_date, "%Y-%m-%d")
+        if end_date is None:
+            self.end_date = end_date
+        else:
+            self.end_date = datetime.strptime(end_date, "%Y-%m-%d")
         self.id_employee = id_employee
         self.equipment_id = equipment_id
 

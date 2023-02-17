@@ -1,1 +1,3 @@
 from .equipment_repository import EquipmentRepository
+from .assigned_equipment_repository import AssignedEquipmentRepository
+
