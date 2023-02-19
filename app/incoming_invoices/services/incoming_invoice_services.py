@@ -1,5 +1,5 @@
 from app.db import SessionLocal
-from app.incoming_invoices.repository import IncomingInvoiceRepository
+from app.incoming_invoices.repository import IncomingInvoiceRepository, IncomingInvoicePaymentRepository
 
 
 class IncomingInvoiceService:
@@ -87,5 +87,33 @@ class IncomingInvoiceService:
             with SessionLocal() as db:
                 incoming_invoices = IncomingInvoiceRepository(db)
                 return incoming_invoices.sum_incoming_invoices_by_years_and_months()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def find_difference_incoming_invoice_gross_and_invoice_payments():
+        try:
+            with SessionLocal() as db:
+                incoming_invoices_repository = IncomingInvoiceRepository(db)
+                all_incoming_invoices = incoming_invoices_repository.read_all_incoming_invoices()
+                incoming_invoice_payments_repository = IncomingInvoicePaymentRepository(db)
+                incoming_invoice_payments = incoming_invoice_payments_repository.sum_incoming_invoice_payments()
+                ids = [list(x.keys())[0] for x in incoming_invoice_payments]
+                difference = []
+                for row in all_incoming_invoices:
+                    if row.incoming_invoice_id not in ids:
+                        diff = {row.incoming_invoice_id: {"gross": row.gross,
+                                                          "payments": 0,
+                                                          "difference": row.gross}}
+                        difference.append(diff)
+                    else:
+                        for invoice in incoming_invoice_payments:
+                            if row.incoming_invoice_id == list(invoice.keys())[0]:
+                                diff = {row.incoming_invoice_id: {"gross": row.gross,
+                                                                  "payments": list(invoice.values())[0],
+                                                                  "difference": row.gross - list(invoice.values())[0]}}
+                                difference.append(diff)
+
+                return difference
         except Exception as e:
             raise e

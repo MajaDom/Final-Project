@@ -111,3 +111,5 @@ class IncomingInvoiceRepository:
             dictionary = {year_month: row[1]}
             response.append(dictionary)
         return response
+
+    

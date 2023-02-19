@@ -57,6 +57,11 @@ def get_sum_incoming_invoices_by_years_and_months():
     return IncomingInvoiceController.sum_incoming_invoices_grouped_by_years_and_months()
 
 
+@incoming_invoice_router.get("/get-difference-incoming-invoice-gross-and-invoice-payments")
+def find_difference_incoming_invoice_gross_and_invoice_payments():
+    return IncomingInvoiceController.find_difference_incoming_invoice_gross_and_invoice_payments()
+
+
 incoming_invoice_payments_router = APIRouter(tags=["Incoming Invoice Payments"],
                                              prefix="/api/incoming-invoice-payments")
 

@@ -1,5 +1,5 @@
 from app.db import SessionLocal
-from app.outgoing_invoices.repository import OutgoingInvoiceRepository
+from app.outgoing_invoices.repository import OutgoingInvoiceRepository, OutgoingInvoicePaymentRepository
 
 
 class OutgoingInvoicesService:
@@ -63,7 +63,8 @@ class OutgoingInvoicesService:
         try:
             with SessionLocal() as db:
                 outgoing_invoice_repository = OutgoingInvoiceRepository(db)
-                return outgoing_invoice_repository.delete_outgoing_invoice_by_id(outgoing_invoice_id=outgoing_invoice_id)
+                return outgoing_invoice_repository.delete_outgoing_invoice_by_id(
+                    outgoing_invoice_id=outgoing_invoice_id)
         except Exception as e:
             raise e
 
@@ -91,5 +92,33 @@ class OutgoingInvoicesService:
             with SessionLocal() as db:
                 outgoing_invoices = OutgoingInvoiceRepository(db)
                 return outgoing_invoices.sum_outgoing_invoices_by_years_and_months()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def find_difference_outgoing_invoice_gross_and_invoice_payments():
+        try:
+            with SessionLocal() as db:
+                outgoing_invoices_repository = OutgoingInvoiceRepository(db)
+                all_outgoing_invoices = outgoing_invoices_repository.read_all_outgoing_invoices()
+                outgoing_invoice_payments_repository = OutgoingInvoicePaymentRepository(db)
+                outgoing_invoice_payments = outgoing_invoice_payments_repository.sum_outgoing_invoice_payments()
+                ids = [list(x.keys())[0] for x in outgoing_invoice_payments]
+                difference = []
+                for row in all_outgoing_invoices:
+                    if row.outgoing_invoice_id not in ids:
+                        diff = {row.outgoing_invoice_id: {"gross": row.gross,
+                                                          "payments": 0,
+                                                          "difference": row.gross}}
+                        difference.append(diff)
+                    else:
+                        for invoice in outgoing_invoice_payments:
+                            if row.outgoing_invoice_id == list(invoice.keys())[0]:
+                                diff = {row.outgoing_invoice_id: {"gross": row.gross,
+                                                                  "payments": list(invoice.values())[0],
+                                                                  "difference": row.gross - list(invoice.values())[0]}}
+                                difference.append(diff)
+
+                return difference
         except Exception as e:
             raise e

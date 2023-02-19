@@ -93,3 +93,12 @@ class OutgoingInvoiceController:
             return outgoing_invoices
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def find_difference_outgoing_invoice_gross_and_invoice_payments():
+        try:
+            outgoing_invoices_diff = OutgoingInvoicesService.find_difference_outgoing_invoice_gross_and_invoice_payments()
+            return outgoing_invoices_diff
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
