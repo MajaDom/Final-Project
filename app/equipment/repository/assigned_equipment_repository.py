@@ -45,6 +45,15 @@ class AssignedEquipmentRepository:
                 code=400)
         return assigned_equipment
 
+    def read_currently_assigned_equipment_from_employee_by_id(self, employee_id: int) -> list[AssignedEquipment]:
+        assigned_equipment = self.db.query(AssignedEquipment).filter(
+            AssignedEquipment.id_employee == employee_id, AssignedEquipment.end_date == None).all()
+        if assigned_equipment is None:
+            raise AssignedEquipmentDoesNotExistInTheDatabaseException(
+                message=f'Employee with id {employee_id} does not have assigned equipment.',
+                code=400)
+        return assigned_equipment
+
     def update_assigned_equipment_by_id(self, assigned_equipment_id: int, start_date: str = None, end_date: str = None,
                                         id_employee: int = None, equipment_id: int = None) -> AssignedEquipment:
         assigned_equipment = self.db.query(AssignedEquipment).filter(

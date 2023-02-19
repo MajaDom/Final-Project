@@ -1,6 +1,6 @@
 from app.users.services import EmploymentContractService
 from fastapi import HTTPException, Response
-from app.users.exceptions import NoContractsForEmployeeException, NoActiveContractsForEmployeeException
+from app.users.exceptions import *
 
 
 class EmploymentContractController:
@@ -12,6 +12,12 @@ class EmploymentContractController:
             return EmploymentContractService.create_new_contract(start_date=start_date, end_date=end_date,
                                                                  contract_type=contract_type,
                                                                  paycheck=paycheck, employee_id=employee_id)
+        except EmployeeInactiveException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
+        except ExistingActiveContractException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
@@ -56,3 +62,10 @@ class EmploymentContractController:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unknown error: {str(e)}")
+
+    @staticmethod
+    def read_contracts_that_are_going_to_expire_in_15_days():
+        try:
+            return EmploymentContractService.read_contracts_that_are_going_to_expire_in_15_days()
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")

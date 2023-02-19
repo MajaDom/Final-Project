@@ -1,6 +1,9 @@
 from pydantic import BaseModel
 from typing import Optional
 
+from app.equipment.schemas import AssignedEquipmentSchema
+from app.users.schemas import EmploymentContractSchema
+
 
 class EmployeeSchema(BaseModel):
     id_employee: int
@@ -8,6 +11,7 @@ class EmployeeSchema(BaseModel):
     last_name: str
     contact: str
     user_id: Optional[str]
+    is_active: bool
 
     class Config:
         orm_mode = True
@@ -31,3 +35,6 @@ class EmployeeSchemaUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+

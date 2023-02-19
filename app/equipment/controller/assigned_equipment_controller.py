@@ -46,6 +46,17 @@ class AssignedEquipmentController:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
     @staticmethod
+    def read_currently_assigned_equipment_from_employee_by_id(employee_id: int):
+        try:
+            assigned_equipment = AssignedEquipmentService.read_currently_assigned_equipment_from_employee_by_id(
+                employee_id=employee_id)
+            return assigned_equipment
+        except AssignedEquipmentDoesNotExistInTheDatabaseException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
     def update_equipment_by_id(assigned_equipment_id: int, start_date: str = None, end_date: str = None,
                                id_employee: int = None, equipment_id: int = None):
         try:

@@ -24,7 +24,16 @@ class EmployeeService:
             raise e
 
     @staticmethod
-    def read_employee_by_id(employee_id: str):
+    def read_all_employees_containing_text_in_first_name(text: str):
+        try:
+            with SessionLocal() as db:
+                employees_repository = EmployeeRepository(db)
+                return employees_repository.read_all_employees_containing_text_in_first_name(text=text)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def read_employee_by_id(employee_id: int):
         try:
             with SessionLocal() as db:
                 employee_repository = EmployeeRepository(db)
@@ -38,6 +47,15 @@ class EmployeeService:
             with SessionLocal() as db:
                 employee_repository = EmployeeRepository(db)
                 return employee_repository.read_employee_by_name(first_name=first_name)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def read_employee_by_last_name(last_name: str):
+        try:
+            with SessionLocal() as db:
+                employee_repository = EmployeeRepository(db)
+                return employee_repository.read_employee_by_last_name(last_name=last_name)
         except Exception as e:
             raise e
 
@@ -61,4 +79,14 @@ class EmployeeService:
                 return employee_repository.delete_employee_by_id(employee_id=employee_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def deactivate_employee(employee_id):
+        try:
+            with SessionLocal() as db:
+                employee_repository = EmployeeRepository(db)
+                return employee_repository.deactivate_employee(employee_id=employee_id)
+        except Exception as e:
+            raise e
+
 

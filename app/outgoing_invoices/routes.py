@@ -48,6 +48,11 @@ def delete_outgoing_invoice_by_id(outgoing_invoice_id: int):
     return OutgoingInvoiceController.delete_outgoing_invoice_by_id(outgoing_invoice_id)
 
 
+@outgoing_invoice_router.get("/get-sum-outgoing_invoices-by-client")
+def get_all_outgoing_invoices_grouped_by_clients():
+    return OutgoingInvoiceController.sum_outgoing_invoices_grouped_by_clients()
+
+
 outgoing_invoice_payments_router = APIRouter(tags=["Outgoing Invoice Payments"],
                                              prefix="/api/outgoing-invoice-payments")
 

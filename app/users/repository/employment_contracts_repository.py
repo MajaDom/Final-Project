@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app.users.models import EmploymentContract
-from app.users.exceptions import NoActiveContractsForEmployeeException
+from app.users.exceptions import NoActiveContractsForEmployeeException, InvalidInputException
+from datetime import datetime, date, timedelta
 
 
 class EmploymentContractRepository:
@@ -11,6 +12,13 @@ class EmploymentContractRepository:
                             employee_id: int, end_date: str = None) -> EmploymentContract:
         """"Create new employee contract"""
         try:
+            if end_date is not None:
+                conv_start_date = datetime.strptime(start_date, "%Y-%m-%d")
+                conv_end_date = datetime.strptime(end_date, "%Y-%m-%d")
+                if conv_start_date > conv_end_date:
+                    raise InvalidInputException(message="Invalid date input.", code=400)
+            if paycheck <= 0:
+                raise InvalidInputException(message="Invalid input for paycheck.", code=400)
             employment_contract = EmploymentContract(start_date=start_date, end_date=end_date,
                                                      contract_type=contract_type, paycheck=paycheck,
                                                      fk_employee_id=employee_id, is_active=True)
@@ -71,3 +79,13 @@ class EmploymentContractRepository:
         self.db.commit()
         self.db.refresh(employment_contract)
         return employment_contract
+
+    def read_contracts_that_are_going_to_expire_in_15_days(self) -> list[EmploymentContract]:
+        contracts = self.db.query(EmploymentContract).filter(EmploymentContract.is_active == 1,
+                                                             EmploymentContract.end_date.isnot(None)).all()
+        renew = []
+        for contract in contracts:
+            check_end_date = datetime.strptime(str(contract.end_date), "%Y-%m-%d")
+            if date.today() + timedelta(days=15) >= datetime.date(check_end_date):
+                renew.append(contract)
+        return renew

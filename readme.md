@@ -8,12 +8,10 @@
 
 ### Predvidjeni entiteti baze podataka:
 * korisnici, zaposleni, dobavljaci, stranke
-* ponude, ugovori, predracuni (obavezujuci i neobavezujuci dokumenti)
+* ugovori (obavezujuci i neobavezujuci dokumenti)
 * troskovna mesta(gradilista na kojima se izvode radovi)
-* delovodnik (dopisi)
-* ulazne i izlazne fakture, zarada, blagajna
+* ulazne i izlazne fakture
 * oprema (zaduzivanje, servisi)
-* vozila (zaduzivanje, servisi)
 
 ### Lista predvidjenih ruta:
 * Create, read, update i delete za svaki od entiteta unutar baze podataka
@@ -22,6 +20,5 @@
 * Izvestaj ukupnih ulaznih troskova po mesecima ili u odredjenom vremenskom okviru za odredjena gradilista
 * Izvestaj ukupnih izlaznih troskova po mesecima ili u odredjenom vremenskom okviru za odredjena gradilista
 * Kontrola isteka ugovora za zaposlene
-* Kontrola isteka registracija vozila
 
 

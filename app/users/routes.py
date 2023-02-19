@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.users.controller import UserController, EmployeeController, EmploymentContractController
 from app.users.schemas import *
+from app.users.controller.user_auth_controller import JWTBearer
 
 user_router = APIRouter(tags=["User"], prefix="/api/users")
 
@@ -8,6 +9,11 @@ user_router = APIRouter(tags=["User"], prefix="/api/users")
 @user_router.post("/create-new-user", response_model=UserSchema)
 def create_user(user: UserSchemaIN):
     return UserController.create_user(user_name=user.user_name, email=user.email, password=user.password)
+
+
+@user_router.post("/create-new-admin-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
+def create_admin_user(user: UserSchemaIN):
+    return UserController.create_admin_user(user_name=user.user_name, email=user.email, password=user.password)
 
 
 @user_router.get("/get-all-users", response_model=list[UserSchema])
@@ -38,7 +44,22 @@ def update_user_is_admin(user_name: str):
 
 @user_router.delete("/delete-user-by-id")
 def delete_user_by_id(user_id: str):
-    return UserController.delete_user_by_id(user_id)
+    return UserController.delete_user_by_id(user_id=user_id)
+
+
+@user_router.put("/deactivate-user-by-id")
+def deactivate_user_by_id(user_id: str):
+    return UserController.deactivate_user_by_id(user_id=user_id)
+
+
+@user_router.put("/activate-user-by-id")
+def activate_user_by_id(user_id: str):
+    return UserController.activate_user_by_id(user_id=user_id)
+
+
+@user_router.post("/login")
+def login_user(user: UserSchemaLogin):
+    return UserController.login_user(name=user.user_name, password=user.password)
 
 
 employee_router = APIRouter(tags=["Employee"], prefix="/api/employees")
@@ -55,26 +76,46 @@ def get_all_employees():
     return EmployeeController.get_all_employees()
 
 
+@employee_router.get("/get-all-employees-containing-text-in-first-name", response_model=list[EmployeeSchema])
+def get_all_employees_containing_text_in_first_name(text: str):
+    return EmployeeController.get_all_employees_containing_text_in_first_name(text=text)
+
+
 @employee_router.get("/get-employee-by-id", response_model=EmployeeSchema)
-def get_employee_by_id(employee_id: str):
+def get_employee_by_id(employee_id: int):
     return EmployeeController.get_employee_by_id(employee_id=employee_id)
 
 
-@employee_router.get("/get-employee-by-first-name", response_model=EmployeeSchema)
-def get_employee_by_name(first_name: str):
+@employee_router.get("/get-employees-by-first-name", response_model=list[EmployeeSchema])
+def get_employees_by_name(first_name: str):
     return EmployeeController.get_employee_by_name(first_name=first_name)
 
 
+@employee_router.get("/get-employees-by-last-name", response_model=list[EmployeeSchema])
+def get_employees_by_last_name(last_name: str):
+    return EmployeeController.get_employee_by_last_name(last_name=last_name)
+
+
 @employee_router.put("/update-employee-data", response_model=EmployeeSchema)
-def update_employee_by_id(employee_id: str, employee: EmployeeSchemaUpdate):
+def update_employee_by_id(employee_id: int, employee: EmployeeSchemaUpdate):
     return EmployeeController.update_employee_by_id(employee_id=employee_id, first_name=employee.first_name,
                                                     last_name=employee.last_name,
                                                     contact=employee.contact, user_id=employee.user_id)
 
 
 @employee_router.delete("/delete-employee-by-id")
-def delete_employee_by_id(employee_id: str):
+def delete_employee_by_id(employee_id: int):
     return EmployeeController.delete_employee_by_id(employee_id)
+
+
+@employee_router.put("/deactivate-employee-by-id")
+def deactivate_employee_by_id(employee_id: int):
+    return EmployeeController.deactivate_employee(employee_id=employee_id)
+
+
+@employee_router.put("/deactivate-employee-if-conditions-are-met")
+def deactivate_employee_if_conditions_are_met(employee_id: int):
+    return EmployeeController.deactivate_employee_if_conditions_are_met(employee_id=employee_id)
 
 
 employment_contract_router = APIRouter(tags=["Employment Contracts"], prefix="/api/employment-contracts")
@@ -113,3 +154,9 @@ def update_employment_contract(employee_id: int, employment_contract: Employment
 @employment_contract_router.put("/archive-contract", response_model=EmploymentContractSchema)
 def archive_contract(employee_id: int):
     return EmploymentContractController.archive_contract(employee_id=employee_id)
+
+
+@employment_contract_router.get("/get-all-contracts-that-are-going-to-expire-in-less-than-15-days",
+                                response_model=list[EmploymentContractSchema])
+def get_contracts_that_are_going_to_expire_in_15_days():
+    return EmploymentContractController.read_contracts_that_are_going_to_expire_in_15_days()

@@ -31,3 +31,11 @@ class UserSchemaUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserSchemaLogin(BaseModel):
+    user_name: str
+    password: str
+
+    class Config:
+        orm_mode = True

@@ -12,6 +12,12 @@ class UserMissingDataException(Exception):
         self.code = code
 
 
+class UserInvalidPassword(Exception):
+    def __init__(self, message, code):
+        self.message = message
+        self.code = code
+
+
 class EmployeeNotFoundException(Exception):
 
     def __init__(self, message, code):
@@ -38,3 +44,26 @@ class NoContractsForEmployeeException(Exception):
     def __init__(self, message, code):
         self.message = message
         self.code = code
+
+
+class InvalidInputException(Exception):
+
+    def __init__(self, message, code):
+        self.message = message
+        self.code = code
+
+
+class EmployeeInactiveException(Exception):
+
+    def __init__(self, message, code):
+        self.message = message
+        self.code = code
+
+
+class ExistingActiveContractException(Exception):
+
+    def __init__(self, message, code):
+        self.message = message
+        self.code = code
+
+

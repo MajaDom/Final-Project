@@ -81,6 +81,13 @@ def get_currently_assigned_equipment_by_id(assigned_equipment_id: int):
         assigned_equipment_id=assigned_equipment_id)
 
 
+@assigned_equipment_router.get("/get-currently-assigned-equipment-from-employee-by-id",
+                               response_model=list[AssignedEquipmentSchema])
+def get_currently_assigned_equipment_from_employee_by_id(employee_id: int):
+    return AssignedEquipmentController.read_currently_assigned_equipment_from_employee_by_id(
+        employee_id=employee_id)
+
+
 @assigned_equipment_router.put("/update-assigned-equipment-by-id", response_model=AssignedEquipmentSchema)
 def update_equipment_by_id(assigned_equipment_id: int, assigned_equipment: AssignedEquipmentSchemaUpdate):
     return AssignedEquipmentController.update_equipment_by_id(assigned_equipment_id=assigned_equipment_id,

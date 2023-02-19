@@ -1,5 +1,6 @@
 from app.db import SessionLocal
-from app.users.repository import EmploymentContractRepository
+from app.users.repository import EmploymentContractRepository, EmployeeRepository
+from app.users.exceptions import EmployeeInactiveException, ExistingActiveContractException
 
 
 class EmploymentContractService:
@@ -9,7 +10,17 @@ class EmploymentContractService:
                             employee_id, end_date: str = None) -> EmploymentContractRepository:
         try:
             with SessionLocal() as db:
+                employee = EmployeeRepository(db)
+                if employee.read_employee_by_id(employee_id=employee_id).is_active == 0:
+                    raise EmployeeInactiveException(message="Employee is fired, it is not possible to add new contract",
+                                                    code=400)
                 contract = EmploymentContractRepository(db)
+                active_contract = contract.read_contract_by_employee_id(id_employee=employee_id)
+                for contract in active_contract:
+                    if contract.is_active == 1:
+                        raise ExistingActiveContractException(
+                            message="There is already an active contract in the database, deactivate existing.",
+                            code=400)
                 return contract.create_new_contract(start_date=start_date, end_date=end_date,
                                                     contract_type=contract_type,
                                                     paycheck=paycheck, employee_id=employee_id)
@@ -35,7 +46,8 @@ class EmploymentContractService:
             raise e
 
     @staticmethod
-    def update_employment_contract(employee_id: int, start_date: str = None, end_date: str = None, contract_type: str = None,
+    def update_employment_contract(employee_id: int, start_date: str = None, end_date: str = None,
+                                   contract_type: str = None,
                                    paycheck: float = None):
         try:
             with SessionLocal() as db:
@@ -52,5 +64,14 @@ class EmploymentContractService:
             with SessionLocal() as db:
                 contract = EmploymentContractRepository(db)
                 return contract.archive_contract(employee_id=employee_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def read_contracts_that_are_going_to_expire_in_15_days():
+        try:
+            with SessionLocal() as db:
+                contracts = EmploymentContractRepository(db)
+                return contracts.read_contracts_that_are_going_to_expire_in_15_days()
         except Exception as e:
             raise e

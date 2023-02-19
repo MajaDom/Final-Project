@@ -16,7 +16,7 @@ class Equipment(Base):
     vat = Column(Float, nullable=False)
     date_of_purchase = Column(Date, nullable=False)
     date_of_transaction = Column(Date, nullable=True)
-    shop_name = Column(String(200), unique=True, nullable=False)
+    shop_name = Column(String(200), nullable=False)
 
     def __init__(self, invoice_code, name, category, serial_number, net, vat, date_of_purchase, date_of_transaction,
                  shop_name):

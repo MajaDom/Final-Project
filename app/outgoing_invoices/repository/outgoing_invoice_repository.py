@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.outgoing_invoices.models import OutgoingInvoice
 from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException
@@ -7,7 +8,8 @@ class OutgoingInvoiceRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_outgoing_invoices(self, client_id, reference_code_invoice: str, start_date: str, date_of_transaction: str,
+    def create_outgoing_invoices(self, client_id, reference_code_invoice: str, start_date: str,
+                                 date_of_transaction: str,
                                  certified_invoice: str, net: float = None, vat: float = None, gross: float = None,
                                  description_invoice: str = None, cost_center_id: int = None) -> OutgoingInvoice:
         try:
@@ -84,3 +86,12 @@ class OutgoingInvoiceRepository:
         self.db.delete(outgoing_invoice)
         self.db.commit()
         return True
+
+    def sum_outgoing_invoices_grouped_by_clients(self):
+        outgoing_invoices = self.db.query(OutgoingInvoice.client_id, func.sum(OutgoingInvoice.gross)).group_by(
+            OutgoingInvoice.client_id)
+        response = []
+        for row in outgoing_invoices:
+            dictionary = {row[0]: row[1]}
+            response.append(dictionary)
+        return response

@@ -13,7 +13,8 @@ class User(Base):
     is_admin = Column(Boolean, default=False)
     is_active = Column(Boolean, default=True)
 
-    def __init__(self, user_name, email, password):
+    def __init__(self, user_name, email, password, is_admin):
         self.user_name = user_name
         self.email = email
         self.password = password
+        self.is_admin = is_admin

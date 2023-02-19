@@ -59,3 +59,4 @@ class OutgoingInvoicePaymentService:
                     outgoing_invoice_payment_id=outgoing_invoice_payment_id)
         except Exception as e:
             raise e
+

@@ -9,9 +9,21 @@ class UserRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_user(self, user_name: str, email: str, password: str) -> User:
+    def create_user(self, user_name: str, email: str, password: str, is_admin: bool = False) -> User:
         try:
-            user = User(user_name, email, password) # todo how to raise custom error, geting 422
+            user = User(user_name=user_name, email=email, password=password, is_admin=is_admin)
+            self.db.add(user)
+            self.db.commit()
+            self.db.refresh(user)
+            return user
+        except IntegrityError as e:
+            raise e
+        except Exception as e:
+            raise e
+
+    def create_admin_user(self, user_name: str, email: str, password: str, is_admin: bool = True) -> User:
+        try:
+            user = User(user_name=user_name, email=email, password=password, is_admin=is_admin)
             self.db.add(user)
             self.db.commit()
             self.db.refresh(user)
@@ -62,10 +74,30 @@ class UserRepository:
         self.db.refresh(user)
         return user
 
-    def delete_user_by_id(self, user_id: str):
+    def delete_user_by_id(self, user_id: str) -> bool:
         user = self.db.query(User).filter(User.user_id == user_id).first()
         if user is None:
             raise UserNotFoundException(message=f'User with id {user_id} not in the database.', code=400)
         self.db.delete(user)
         self.db.commit()
+        return True
+
+    def deactivate_user(self, user_id: str) -> bool:
+        user = self.db.query(User).filter(User.user_id == user_id).first()
+        if user is None:
+            raise UserNotFoundException(message=f'User with id {user_id} not in the database.', code=400)
+        user.is_active = False
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
+        return True
+
+    def activate_user(self, user_id: str) -> bool:
+        user = self.db.query(User).filter(User.user_id == user_id).first()
+        if user is None:
+            raise UserNotFoundException(message=f'User with id {user_id} not in the database.', code=400)
+        user.is_active = True
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
         return True

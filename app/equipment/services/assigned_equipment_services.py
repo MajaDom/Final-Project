@@ -48,6 +48,16 @@ class AssignedEquipmentService:
             raise e
 
     @staticmethod
+    def read_currently_assigned_equipment_from_employee_by_id(employee_id: int):
+        try:
+            with SessionLocal() as db:
+                assigned_equipment_repository = AssignedEquipmentRepository(db)
+                return assigned_equipment_repository.read_currently_assigned_equipment_from_employee_by_id(
+                    employee_id=employee_id)
+        except Exception as e:
+            raise e
+
+    @staticmethod
     def update_assigned_equipment_by_id(assigned_equipment_id: int, start_date: str = None, end_date: str = None,
                                         id_employee: int = None, equipment_id: int = None):
         try:

@@ -19,7 +19,7 @@ class OutgoingInvoice(Base):
     certified_invoice = Column(String(10))  # three possible values +,-,*
 
     client_id = Column(Integer, ForeignKey("clients.client_id"), nullable=False)
-    cost_center_id = Column(Integer, ForeignKey("cost_centers.cost_center_id"))
+    cost_center_id = Column(Integer, ForeignKey("cost_centers.cost_center_id"), nullable=False)
 
     def __init__(self, reference_code_invoice, start_date, date_of_transaction, net, vat, gross, description_invoice,
                  certified_invoice, client_id, cost_center_id):

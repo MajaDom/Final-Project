@@ -66,3 +66,12 @@ class OutgoingInvoicesService:
                 return outgoing_invoice_repository.delete_outgoing_invoice_by_id(outgoing_invoice_id=outgoing_invoice_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def sum_outgoing_invoices_grouped_by_clients():
+        try:
+            with SessionLocal() as db:
+                outgoing_invoices = OutgoingInvoiceRepository(db)
+                return outgoing_invoices.sum_outgoing_invoices_grouped_by_clients()
+        except Exception as e:
+            raise e
