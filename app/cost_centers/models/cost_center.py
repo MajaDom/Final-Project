@@ -7,9 +7,8 @@ class CostCenter(Base):
     __table_args__ = {'mysql_engine': 'InnoDB'}
 
     cost_center_id = Column(Integer, primary_key=True, autoincrement=True)
-    center_name = Column(String(100), nullable=False)
-    center_code = Column(String(50), nullable=False)  # todo perhaps add unique, check
-    is_active = Column(Boolean, default=True)
+    center_name = Column(String(100), nullable=False, unique=True)
+    center_code = Column(String(50), nullable=False, unique=True)
 
     def __init__(self, center_name, center_code):
         self.center_name = center_name

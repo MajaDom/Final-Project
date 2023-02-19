@@ -6,7 +6,6 @@ class CostCenterSchema(BaseModel):
     cost_center_id: int
     center_name: str
     center_code: str
-    is_active: Optional[bool]
 
     class Config:
         orm_mode = True

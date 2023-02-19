@@ -12,7 +12,6 @@ class ClientContract(Base):
     start_date = Column(Date, nullable=False)
     contract_description = Column(String(500))
     end_date = Column(Date, unique=True, nullable=True)
-    is_active = Column(Boolean, default=True)
 
     client_id = Column(Integer, ForeignKey("clients.client_id"), nullable=False)
 

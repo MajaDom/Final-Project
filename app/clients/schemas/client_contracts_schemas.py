@@ -16,11 +16,11 @@ class ClientContractSchema(BaseModel):
 
 
 class ClientContractSchemaIN(BaseModel):
-    contract_code: Optional[str]
-    start_date: Optional[str]
+    contract_code: str
+    start_date: str
     contract_description: Optional[str]
     end_date: Optional[str]
-    client_id: Optional[int]
+    client_id: int
 
     class Config:
         orm_mode = True
