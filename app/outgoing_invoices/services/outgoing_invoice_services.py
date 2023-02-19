@@ -75,3 +75,21 @@ class OutgoingInvoicesService:
                 return outgoing_invoices.sum_outgoing_invoices_grouped_by_clients()
         except Exception as e:
             raise e
+
+    @staticmethod
+    def sum_outgoing_invoices_grouped_by_cost_centers():
+        try:
+            with SessionLocal() as db:
+                outgoing_invoices = OutgoingInvoiceRepository(db)
+                return outgoing_invoices.sum_outgoing_invoices_grouped_by_cost_centers()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def sum_outgoing_invoices_by_years_and_months():
+        try:
+            with SessionLocal() as db:
+                outgoing_invoices = OutgoingInvoiceRepository(db)
+                return outgoing_invoices.sum_outgoing_invoices_by_years_and_months()
+        except Exception as e:
+            raise e

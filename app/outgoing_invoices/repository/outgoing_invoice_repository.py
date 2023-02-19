@@ -1,3 +1,4 @@
+import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.outgoing_invoices.models import OutgoingInvoice
@@ -95,3 +96,25 @@ class OutgoingInvoiceRepository:
             dictionary = {row[0]: row[1]}
             response.append(dictionary)
         return response
+
+    def sum_outgoing_invoices_grouped_by_cost_centers(self):
+        outgoing_invoices = self.db.query(OutgoingInvoice.cost_center_id, func.sum(OutgoingInvoice.gross)).group_by(
+            OutgoingInvoice.cost_center_id)
+        response = []
+        for row in outgoing_invoices:
+            dictionary = {row[0]: row[1]}
+            response.append(dictionary)
+        return response
+
+    def sum_outgoing_invoices_by_years_and_months(self):
+        outgoing_invoices = self.db.query(OutgoingInvoice.start_date, func.sum(OutgoingInvoice.gross)).group_by(
+            sqlalchemy.func.year(OutgoingInvoice.start_date),
+            sqlalchemy.func.month(OutgoingInvoice.start_date)).order_by(OutgoingInvoice.start_date)
+        response = []
+        for row in outgoing_invoices:
+            year_month = str(row[0])[0:7]
+            dictionary = {year_month: row[1]}
+            response.append(dictionary)
+        return response
+
+

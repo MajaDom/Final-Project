@@ -6,13 +6,13 @@ supplier_router = APIRouter(tags=["Supplier"], prefix="/api/supplier")
 
 
 @supplier_router.post("/create-new-supplier", response_model=SupplierSchema)
-def create_cost_center(supplier: SupplierSchemaIN):
+def create_supplier(supplier: SupplierSchemaIN):
     return SupplierController.create_supplier(supplier_name=supplier.supplier_name,
                                               contact=supplier.contact)
 
 
 @supplier_router.get("/get-all-supplier")
-def get_all_supplier():
+def get_all_suppliers():
     return SupplierController.get_all_suppliers()
 
 
@@ -22,7 +22,7 @@ def get_supplier_by_id(supplier_id: int):
 
 
 @supplier_router.get("/get-supplier-by-name")
-def get_cost_center_by_name(supplier_name: str):
+def get_supplier_by_name(supplier_name: str):
     return SupplierController.get_supplier_by_name(supplier_name=supplier_name)
 
 

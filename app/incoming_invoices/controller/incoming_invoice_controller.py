@@ -39,16 +39,6 @@ class IncomingInvoiceController:
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
-    # @staticmethod
-    # def get_outgoing_invoice_by_name(outgoing_invoice_id: str):
-    #     try:
-    #         outgoing_invoice = OutgoingInvoicesService.re(client_name=client_name)
-    #         return client
-    #     except ClientWithIdDoesNotExistInTheDatabaseException as e:
-    #         raise HTTPException(status_code=e.code, detail=e.message)
-    #     except Exception as e:
-    #         raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
-
     @staticmethod
     def update_incoming_invoices_by_id(incoming_invoice_id: int, reference_code_invoice: str = None,
                                        number_invoice: str = None, invoice_date: str = None,
@@ -78,5 +68,29 @@ class IncomingInvoiceController:
             return Response(content=f"Invoice with id {incoming_invoice_id} successfully deleted.")
         except IncomingInvoiceDoesNotExistInTheDatabaseException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def sum_incoming_invoices_grouped_by_suppliers():
+        try:
+            incoming_invoices = IncomingInvoiceService.sum_incoming_invoices_grouped_by_suppliers()
+            return incoming_invoices
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def sum_incoming_invoices_grouped_by_cost_centers():
+        try:
+            incoming_invoices = IncomingInvoiceService.sum_incoming_invoices_grouped_by_cost_centers()
+            return incoming_invoices
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def sum_incoming_invoices_grouped_by_years_and_months():
+        try:
+            incoming_invoices = IncomingInvoiceService.sum_incoming_invoices_by_years_and_months()
+            return incoming_invoices
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")

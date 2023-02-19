@@ -59,3 +59,13 @@ class IncomingInvoicePaymentService:
                     incoming_invoice_payment_id=incoming_invoice_payment_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def sum_incoming_invoice_payments():
+        try:
+            with SessionLocal() as db:
+                incoming_invoice_payment_repository = IncomingInvoicePaymentRepository(db)
+                result = incoming_invoice_payment_repository.sum_incoming_invoice_payments()
+                return result
+        except Exception as e:
+            raise e

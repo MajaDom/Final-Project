@@ -1,3 +1,5 @@
+import sqlalchemy
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.incoming_invoices.models import IncomingInvoice
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException
@@ -80,3 +82,32 @@ class IncomingInvoiceRepository:
         self.db.delete(incoming_invoice)
         self.db.commit()
         return True
+
+    def sum_incoming_invoices_grouped_by_suppliers(self):
+        incoming_invoices = self.db.query(IncomingInvoice.supplier_id, func.sum(IncomingInvoice.gross)).group_by(
+            IncomingInvoice.supplier_id)
+        response = []
+        for row in incoming_invoices:
+            dictionary = {row[0]: row[1]}
+            response.append(dictionary)
+        return response
+
+    def sum_incoming_invoices_grouped_by_cost_center(self):
+        incoming_invoices = self.db.query(IncomingInvoice.cost_center_id, func.sum(IncomingInvoice.gross)).group_by(
+            IncomingInvoice.cost_center_id)
+        response = []
+        for row in incoming_invoices:
+            dictionary = {row[0]: row[1]}
+            response.append(dictionary)
+        return response
+
+    def sum_incoming_invoices_by_years_and_months(self):
+        incoming_invoices = self.db.query(IncomingInvoice.invoice_date, func.sum(IncomingInvoice.gross)).group_by(
+            sqlalchemy.func.year(IncomingInvoice.invoice_date),
+            sqlalchemy.func.month(IncomingInvoice.invoice_date)).order_by(IncomingInvoice.invoice_date)
+        response = []
+        for row in incoming_invoices:
+            year_month = str(row[0])[0:7]
+            dictionary = {year_month: row[1]}
+            response.append(dictionary)
+        return response

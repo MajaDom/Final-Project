@@ -42,6 +42,21 @@ def delete_incoming_invoice_by_id(incoming_invoice_id: int):
     return IncomingInvoiceController.delete_incoming_invoice_by_id(incoming_invoice_id=incoming_invoice_id)
 
 
+@incoming_invoice_router.get("/get-sum-of-incoming-invoices-grouped-by-supplier")
+def sum_incoming_invoices_grouped_by_suppliers():
+    return IncomingInvoiceController.sum_incoming_invoices_grouped_by_suppliers()
+
+
+@incoming_invoice_router.get("/get-sum-of-incoming-invoices-grouped-by-cost-centers")
+def sum_incoming_invoices_grouped_by_cost_centers():
+    return IncomingInvoiceController.sum_incoming_invoices_grouped_by_cost_centers()
+
+
+@incoming_invoice_router.get("/get-sum-incoming-invoices-by-years-and-months")
+def get_sum_incoming_invoices_by_years_and_months():
+    return IncomingInvoiceController.sum_incoming_invoices_grouped_by_years_and_months()
+
+
 incoming_invoice_payments_router = APIRouter(tags=["Incoming Invoice Payments"],
                                              prefix="/api/incoming-invoice-payments")
 
@@ -84,3 +99,8 @@ def update_incoming_invoice_payment_by_id(incoming_invoice_payment_id: int,
 def delete_incoming_invoice_payment_by_id(incoming_invoice_payment_id: int):
     return IncomingInvoicePaymentController.delete_incoming_invoice_payment_by_id(
         incoming_invoice_payment_id=incoming_invoice_payment_id)
+
+
+@incoming_invoice_payments_router.get("/get-sum-incoming-invoice-payments")
+def get_sum_incoming_invoice_payments():
+    return IncomingInvoicePaymentController.sum_incoming_invoice_payments()

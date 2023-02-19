@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.incoming_invoices.models import IncomingInvoicePayment
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException, \
@@ -73,3 +74,13 @@ class IncomingInvoicePaymentRepository:
         self.db.delete(incoming_invoice_payment)
         self.db.commit()
         return True
+
+    def sum_incoming_invoice_payments(self):
+        incoming_invoices_payments = self.db.query(IncomingInvoicePayment.incoming_invoice_id,
+                                                   func.sum(IncomingInvoicePayment.payment)).group_by(
+            IncomingInvoicePayment.incoming_invoice_id)
+        response = []
+        for row in incoming_invoices_payments:
+            dictionary = {row[0]: row[1]}
+            response.append(dictionary)
+        return response

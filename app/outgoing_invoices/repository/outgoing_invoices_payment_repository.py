@@ -1,3 +1,4 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.outgoing_invoices.models import OutgoingInvoicePayment
 from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException, \
@@ -26,7 +27,8 @@ class OutgoingInvoicePaymentRepository:
         outgoing_invoices_payments = self.db.query(OutgoingInvoicePayment).all()
         return outgoing_invoices_payments
 
-    def read_outgoing_invoice_payments_by_outgoing_invoice_id(self, outgoing_invoice_id: int) -> list[OutgoingInvoicePayment]:
+    def read_outgoing_invoice_payments_by_outgoing_invoice_id(self, outgoing_invoice_id: int) -> list[
+        OutgoingInvoicePayment]:
         outgoing_invoice_payments = self.db.query(OutgoingInvoicePayment).filter(
             OutgoingInvoicePayment.outgoing_invoice_id == outgoing_invoice_id).all()
         if outgoing_invoice_payments is None:
@@ -73,3 +75,13 @@ class OutgoingInvoicePaymentRepository:
         self.db.delete(outgoing_invoice_payment)
         self.db.commit()
         return True
+
+    def sum_outgoing_invoice_payments(self):
+        outgoing_invoices_payments = self.db.query(OutgoingInvoicePayment.outgoing_invoice_id,
+                                                   func.sum(OutgoingInvoicePayment.payment)).group_by(
+            OutgoingInvoicePayment.outgoing_invoice_id)
+        response = []
+        for row in outgoing_invoices_payments:
+            dictionary = {row[0]: row[1]}
+            response.append(dictionary)
+        return response

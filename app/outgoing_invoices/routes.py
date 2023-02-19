@@ -53,6 +53,16 @@ def get_all_outgoing_invoices_grouped_by_clients():
     return OutgoingInvoiceController.sum_outgoing_invoices_grouped_by_clients()
 
 
+@outgoing_invoice_router.get("/get-sum-outgoing_invoices-by-cost-centers")
+def get_all_outgoing_invoices_grouped_by_cost_centers():
+    return OutgoingInvoiceController.sum_outgoing_invoices_grouped_by_cost_centers()
+
+
+@outgoing_invoice_router.get("/get-sum-outgoing_invoices-by-years-and-months")
+def get_sum_outgoing_invoices_by_years_and_months():
+    return OutgoingInvoiceController.sum_outgoing_invoices_grouped_by_years_and_months()
+
+
 outgoing_invoice_payments_router = APIRouter(tags=["Outgoing Invoice Payments"],
                                              prefix="/api/outgoing-invoice-payments")
 
@@ -79,7 +89,8 @@ def get_outgoing_invoice_payments_by_outgoing_invoice_id(outgoing_invoice_id: in
         outgoing_invoice_id=outgoing_invoice_id)
 
 
-@outgoing_invoice_payments_router.put("/update-outgoing-invoice-payment-by-id", response_model=OutgoingInvoicePaymentSchema)
+@outgoing_invoice_payments_router.put("/update-outgoing-invoice-payment-by-id",
+                                      response_model=OutgoingInvoicePaymentSchema)
 def update_outgoing_invoice_payment_by_id(outgoing_invoice_payment_id: int,
                                           outgoing_invoice_payment: OutgoingInvoicePaymentUpdate):
     return OutgoingInvoicePaymentController.update_outgoing_invoice_payment_by_id(
@@ -94,3 +105,8 @@ def update_outgoing_invoice_payment_by_id(outgoing_invoice_payment_id: int,
 def delete_outgoing_invoice_payment_by_id(outgoing_invoice_payment_id: int):
     return OutgoingInvoicePaymentController.delete_outgoing_invoice_payment_by_id(
         outgoing_invoice_payment_id=outgoing_invoice_payment_id)
+
+
+@outgoing_invoice_payments_router.get("/get-sum-outgoing-invoice-payments")
+def get_sum_outgoing_invoice_payments():
+    return OutgoingInvoicePaymentController.sum_outgoing_invoice_payments()

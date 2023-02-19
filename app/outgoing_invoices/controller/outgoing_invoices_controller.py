@@ -77,3 +77,19 @@ class OutgoingInvoiceController:
             return outgoing_invoices
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def sum_outgoing_invoices_grouped_by_cost_centers():
+        try:
+            outgoing_invoices = OutgoingInvoicesService.sum_outgoing_invoices_grouped_by_cost_centers()
+            return outgoing_invoices
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def sum_outgoing_invoices_grouped_by_years_and_months():
+        try:
+            outgoing_invoices = OutgoingInvoicesService.sum_outgoing_invoices_by_years_and_months()
+            return outgoing_invoices
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")

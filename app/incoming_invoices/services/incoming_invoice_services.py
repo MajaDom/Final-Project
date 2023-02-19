@@ -62,3 +62,30 @@ class IncomingInvoiceService:
                     incoming_invoice_id=incoming_invoice_id)
         except Exception as e:
             raise e
+
+    @staticmethod
+    def sum_incoming_invoices_grouped_by_suppliers():
+        try:
+            with SessionLocal() as db:
+                incoming_invoices = IncomingInvoiceRepository(db)
+                return incoming_invoices.sum_incoming_invoices_grouped_by_suppliers()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def sum_incoming_invoices_grouped_by_cost_centers():
+        try:
+            with SessionLocal() as db:
+                incoming_invoices = IncomingInvoiceRepository(db)
+                return incoming_invoices.sum_incoming_invoices_grouped_by_cost_center()
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def sum_incoming_invoices_by_years_and_months():
+        try:
+            with SessionLocal() as db:
+                incoming_invoices = IncomingInvoiceRepository(db)
+                return incoming_invoices.sum_incoming_invoices_by_years_and_months()
+        except Exception as e:
+            raise e
