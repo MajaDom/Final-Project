@@ -1,8 +1,10 @@
 import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
+from datetime import datetime
 from app.outgoing_invoices.models import OutgoingInvoice
-from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException
+from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException, InvalidInputException
 
 
 class OutgoingInvoiceRepository:
@@ -13,7 +15,15 @@ class OutgoingInvoiceRepository:
                                  date_of_transaction: str,
                                  certified_invoice: str, net: float = None, vat: float = None, gross: float = None,
                                  description_invoice: str = None, cost_center_id: int = None) -> OutgoingInvoice:
+        """Method that creates new outgoing invoice"""
         try:
+            if date_of_transaction is not None:
+                conv_start_date = datetime.strptime(start_date, "%Y-%m-%d")
+                conv_date_of_transaction = datetime.strptime(date_of_transaction, "%Y-%m-%d")
+                if conv_start_date > conv_date_of_transaction:
+                    raise InvalidInputException(message="Invalid date input.", code=400)
+            if net < 0 or vat < 0 or gross < 0:
+                raise InvalidInputException(message="Invalid number input.", code=400)
             outgoing_invoices = OutgoingInvoice(client_id=client_id, reference_code_invoice=reference_code_invoice,
                                                 start_date=start_date, date_of_transaction=date_of_transaction,
                                                 net=net, vat=vat, gross=gross, description_invoice=description_invoice,
@@ -22,14 +32,18 @@ class OutgoingInvoiceRepository:
             self.db.commit()
             self.db.refresh(outgoing_invoices)
             return outgoing_invoices
+        except IntegrityError as e:
+            raise e
         except Exception as e:
             raise e
 
     def read_all_outgoing_invoices(self) -> list[OutgoingInvoice]:
+        """Method that reads all outgoing invoices."""
         outgoing_invoice = self.db.query(OutgoingInvoice).all()
         return outgoing_invoice
 
     def read_outgoing_invoice_by_id(self, outgoing_invoice_id: int) -> OutgoingInvoice:
+        """Method that reads outgoing invoice by id."""
         outgoing_invoice = self.db.query(OutgoingInvoice).filter(
             OutgoingInvoice.outgoing_invoice_id == outgoing_invoice_id).first()
         if outgoing_invoice is None:
@@ -44,6 +58,7 @@ class OutgoingInvoiceRepository:
                                       certified_invoice: str = None, net: float = None, vat: float = None,
                                       gross: float = None,
                                       description_invoice: str = None, cost_center_id: int = None) -> OutgoingInvoice:
+        """Method that updates existing values in the database."""
         outgoing_invoice = self.db.query(OutgoingInvoice).filter(
             OutgoingInvoice.outgoing_invoice_id == outgoing_invoice_id).first()
 
@@ -78,6 +93,7 @@ class OutgoingInvoiceRepository:
         return outgoing_invoice
 
     def delete_outgoing_invoice_by_id(self, outgoing_invoice_id: int):
+        """Method that deletes outgoing invoice by id."""
         outgoing_invoice = self.db.query(OutgoingInvoice).filter(
             OutgoingInvoice.outgoing_invoice_id == outgoing_invoice_id).first()
         if outgoing_invoice is None:
@@ -89,6 +105,7 @@ class OutgoingInvoiceRepository:
         return True
 
     def sum_outgoing_invoices_grouped_by_clients(self):
+        """Method that sums gross total grouped by clients."""
         outgoing_invoices = self.db.query(OutgoingInvoice.client_id, func.sum(OutgoingInvoice.gross)).group_by(
             OutgoingInvoice.client_id)
         response = []
@@ -98,6 +115,7 @@ class OutgoingInvoiceRepository:
         return response
 
     def sum_outgoing_invoices_grouped_by_cost_centers(self):
+        """Method that sums gross total grouped by cost center."""
         outgoing_invoices = self.db.query(OutgoingInvoice.cost_center_id, func.sum(OutgoingInvoice.gross)).group_by(
             OutgoingInvoice.cost_center_id)
         response = []
@@ -107,6 +125,7 @@ class OutgoingInvoiceRepository:
         return response
 
     def sum_outgoing_invoices_by_years_and_months(self):
+        """Method that sums gross total grouped by years and months."""
         outgoing_invoices = self.db.query(OutgoingInvoice.start_date, func.sum(OutgoingInvoice.gross)).group_by(
             sqlalchemy.func.year(OutgoingInvoice.start_date),
             sqlalchemy.func.month(OutgoingInvoice.start_date)).order_by(OutgoingInvoice.start_date)

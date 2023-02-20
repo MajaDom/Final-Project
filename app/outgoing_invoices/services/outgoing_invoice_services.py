@@ -8,6 +8,7 @@ class OutgoingInvoicesService:
     def create_outgoing_invoice(client_id, reference_code_invoice: str, start_date: str, date_of_transaction: str,
                                 certified_invoice: str, net: float = None, vat: float = None, gross: float = None,
                                 description_invoice: str = None, cost_center_id: int = None):
+        """Method that creates new outgoing invoice."""
         try:
             with SessionLocal() as db:
                 outgoing_invoice_repository = OutgoingInvoiceRepository(db)
@@ -18,10 +19,11 @@ class OutgoingInvoicesService:
                     net=net, vat=vat, gross=gross, description_invoice=description_invoice,
                     cost_center_id=cost_center_id)
         except Exception as e:
-            return e
+            raise e
 
     @staticmethod
     def read_all_outgoing_invoices():
+        """Method that reads all outgoing invoices."""
         try:
             with SessionLocal() as db:
                 outgoing_invoices = OutgoingInvoiceRepository(db)
@@ -31,6 +33,7 @@ class OutgoingInvoicesService:
 
     @staticmethod
     def read_outgoing_invoice_by_id(outgoing_invoice_id: int):
+        """Method that reads outgoing invoice by id."""
         try:
             with SessionLocal() as db:
                 outgoing_invoice_repository = OutgoingInvoiceRepository(db)
@@ -45,6 +48,7 @@ class OutgoingInvoicesService:
                                       certified_invoice: str = None, net: float = None, vat: float = None,
                                       gross: float = None,
                                       description_invoice: str = None, cost_center_id: int = None):
+        """Method that updates existing values in the database."""
         try:
             with SessionLocal() as db:
                 outgoing_invoice_repository = OutgoingInvoiceRepository(db)
@@ -60,6 +64,7 @@ class OutgoingInvoicesService:
 
     @staticmethod
     def delete_outgoing_invoice_by_id(outgoing_invoice_id: int):
+        """Method that deletes outgoing invoice by id."""
         try:
             with SessionLocal() as db:
                 outgoing_invoice_repository = OutgoingInvoiceRepository(db)
@@ -70,6 +75,7 @@ class OutgoingInvoicesService:
 
     @staticmethod
     def sum_outgoing_invoices_grouped_by_clients():
+        """Method that sums gross total grouped by clients."""
         try:
             with SessionLocal() as db:
                 outgoing_invoices = OutgoingInvoiceRepository(db)
@@ -79,6 +85,7 @@ class OutgoingInvoicesService:
 
     @staticmethod
     def sum_outgoing_invoices_grouped_by_cost_centers():
+        """Method that sums gross total grouped by cost center."""
         try:
             with SessionLocal() as db:
                 outgoing_invoices = OutgoingInvoiceRepository(db)
@@ -88,6 +95,7 @@ class OutgoingInvoicesService:
 
     @staticmethod
     def sum_outgoing_invoices_by_years_and_months():
+        """Method that sums gross total grouped by years and months."""
         try:
             with SessionLocal() as db:
                 outgoing_invoices = OutgoingInvoiceRepository(db)
@@ -97,6 +105,7 @@ class OutgoingInvoicesService:
 
     @staticmethod
     def find_difference_outgoing_invoice_gross_and_invoice_payments():
+        """Method that shows gross income, payments and difference between the two."""
         try:
             with SessionLocal() as db:
                 outgoing_invoices_repository = OutgoingInvoiceRepository(db)

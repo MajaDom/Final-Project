@@ -16,7 +16,7 @@ class IncomingInvoicePaymentService:
                     incoming_invoice_id=incoming_invoice_id,
                     payment_description=payment_description)
         except Exception as e:
-            return e
+            raise e
 
     @staticmethod
     def read_all_incoming_invoice_payments():

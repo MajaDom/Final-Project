@@ -2,7 +2,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.incoming_invoices.models import IncomingInvoicePayment
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException, \
-    IncomingInvoicePaymentDoesNotExistInTheDatabaseException
+    IncomingInvoicePaymentDoesNotExistInTheDatabaseException, InvalidInputException
 from datetime import datetime
 
 
@@ -12,7 +12,11 @@ class IncomingInvoicePaymentRepository:
 
     def create_incoming_invoice_payment(self, payment_date: str, payment: float, incoming_invoice_id: int,
                                         payment_description: str = None) -> IncomingInvoicePayment:
+        """Method that creates new incoming invoice payment."""
         try:
+            datetime.strptime(payment_date, "%Y-%m-%d")
+            if payment < 0:
+                raise InvalidInputException(code=400, message="Invalid Input.")
             incoming_invoice_payment = IncomingInvoicePayment(payment_date=payment_date, payment=payment,
                                                               incoming_invoice_id=incoming_invoice_id,
                                                               payment_description=payment_description)
@@ -20,14 +24,19 @@ class IncomingInvoicePaymentRepository:
             self.db.commit()
             self.db.refresh(incoming_invoice_payment)
             return incoming_invoice_payment
+        except InvalidInputException:
+            raise InvalidInputException(code=400, message="Invalid Input.")
         except Exception as e:
             raise e
 
     def read_all_incoming_invoices_payments(self) -> list[IncomingInvoicePayment]:
+        """Method that returns all incoming invoices."""
         incoming_invoices_payments = self.db.query(IncomingInvoicePayment).all()
         return incoming_invoices_payments
 
-    def read_incoming_invoice_payments_by_incoming_invoice_id(self, incoming_invoice_id: int) -> list[IncomingInvoicePayment]:
+    def read_incoming_invoice_payments_by_incoming_invoice_id(self, incoming_invoice_id: int) -> \
+            list[IncomingInvoicePayment]:
+        """Method that returns specific invoice based on invoice id."""
         incoming_invoice_payments = self.db.query(IncomingInvoicePayment).filter(
             IncomingInvoicePayment.incoming_invoice_id == incoming_invoice_id).all()
         if incoming_invoice_payments is None:
@@ -39,6 +48,7 @@ class IncomingInvoicePaymentRepository:
     def update_incoming_invoice_payment_by_id(self, incoming_invoice_payment_id: int, payment_date: str = None,
                                               payment_description: str = None, payment: float = None,
                                               incoming_invoice_id: int = None) -> IncomingInvoicePayment:
+        """Method that updates existing values."""
         incoming_invoice_payment = self.db.query(IncomingInvoicePayment).filter(
             IncomingInvoicePayment.incoming_invoice_payment_id == incoming_invoice_payment_id).first()
 
@@ -65,6 +75,7 @@ class IncomingInvoicePaymentRepository:
         return incoming_invoice_payment
 
     def delete_incoming_invoice_payment_by_id(self, incoming_invoice_payment_id: int):
+        """Method that deletes invoice payment from the database."""
         incoming_invoice_payment = self.db.query(IncomingInvoicePayment).filter(
             IncomingInvoicePayment.incoming_invoice_payment_id == incoming_invoice_payment_id).first()
         if incoming_invoice_payment is None:
@@ -76,6 +87,7 @@ class IncomingInvoicePaymentRepository:
         return True
 
     def sum_incoming_invoice_payments(self):
+        """Method that sums all invoice payments."""
         incoming_invoices_payments = self.db.query(IncomingInvoicePayment.incoming_invoice_id,
                                                    func.sum(IncomingInvoicePayment.payment)).group_by(
             IncomingInvoicePayment.incoming_invoice_id)
