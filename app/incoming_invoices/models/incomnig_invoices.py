@@ -30,5 +30,3 @@ class IncomingInvoice(Base):
         self.description_invoice = description_invoice
         self.supplier_id = supplier_id
         self.cost_center_id = cost_center_id
-
-

@@ -17,7 +17,7 @@ class EquipmentService:
                                                                  shop_name=shop_name,
                                                                  date_of_transaction=date_of_transaction)
         except Exception as e:
-            return e
+            raise e
 
     @staticmethod
     def read_all_equipment():

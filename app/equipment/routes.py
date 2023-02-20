@@ -9,7 +9,7 @@ equipment_router = APIRouter(tags=["Equipment"], prefix="/api/equipment")
 @equipment_router.post("/create-new-equipment",
                        response_model=EquipmentSchema,
                        dependencies=[Depends(JWTBearer("super_user"))])
-def assign_new_equipment(equipment: EquipmentSchemaSchemaIN):
+def create_new_equipment(equipment: EquipmentSchemaSchemaIN):
     return EquipmentController.create_equipment(invoice_code=equipment.invoice_code, name=equipment.name,
                                                 category=equipment.category, serial_number=equipment.serial_number,
                                                 net=equipment.net, vat=equipment.vat,
@@ -24,7 +24,7 @@ def get_all_equipment():
 
 
 @equipment_router.get("/get-equipment-by-id", response_model=EquipmentSchema)
-def get_client_by_id(equipment_id: int):
+def get_equipment_by_id(equipment_id: int):
     """"""
     return EquipmentController.get_equipment_by_id(equipment_id=equipment_id)
 
@@ -64,7 +64,7 @@ assigned_equipment_router = APIRouter(tags=["Assigned Equipment"], prefix="/api/
 @assigned_equipment_router.post("/create-new-assigned-equipment",
                                 response_model=AssignedEquipmentSchema,
                                 dependencies=[Depends(JWTBearer("super_user"))])
-def create_assigned_equipment(assigned_equipment: AssignedEquipmentSchemaIN):
+def assign_new_equipment(assigned_equipment: AssignedEquipmentSchemaIN):
     """
         - Method that creates new assigned equipment.
         - **start_date**: mandatory field
@@ -118,7 +118,7 @@ def get_currently_assigned_equipment_from_employee_by_id(employee_id: int):
                                dependencies=[Depends(JWTBearer("super_user"))])
 def update_assigned_equipment_by_id(assigned_equipment_id: int, assigned_equipment: AssignedEquipmentSchemaUpdate):
     """
-    - Method that updates values existing assigned equipment.
+    - Method that updates values of existing assigned equipment.
     - **assigned_equipment_id**: mandatory parameter
     - **start_date**: not a mandatory field
     - **id_employee**: not a mandatory field
@@ -134,5 +134,5 @@ def update_assigned_equipment_by_id(assigned_equipment_id: int, assigned_equipme
 
 @assigned_equipment_router.delete("/delete-assigned-equipment-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_assigned_equipment_by_id(assigned_equipment_id: int):
-    """Method that updates values existing assigned equipment."""
+    """Method that deletes assigned equipment based on id."""
     return AssignedEquipmentController.delete_assigned_equipment_by_id(assigned_equipment_id=assigned_equipment_id)

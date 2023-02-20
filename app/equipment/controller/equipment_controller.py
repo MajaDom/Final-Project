@@ -1,6 +1,7 @@
-from app.equipment.services import EquipmentService
-from app.equipment.exceptions import EquipmentDoesNotExistInTheDatabaseException
 from fastapi import HTTPException, Response
+from sqlalchemy.exc import IntegrityError
+from app.equipment.services import EquipmentService
+from app.equipment.exceptions import EquipmentDoesNotExistInTheDatabaseException, InvalidInputException
 
 
 class EquipmentController:
@@ -17,8 +18,12 @@ class EquipmentController:
                                                                    date_of_purchase=date_of_purchase,
                                                                    shop_name=shop_name)
             return equipment_contract
+        except IntegrityError as e:
+            raise HTTPException(status_code=400, detail=str(e))
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
-            raise e
+            raise HTTPException(status_code=500, detail=str(e))
 
     @staticmethod
     def get_all_equipment():

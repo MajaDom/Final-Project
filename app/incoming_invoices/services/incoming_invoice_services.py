@@ -8,6 +8,7 @@ class IncomingInvoiceService:
     def create_outgoing_invoice(reference_code_invoice: str, number_invoice: str, invoice_date: str,
                                 supplier_id: int, net: float = None, vat: float = None, gross: float = None,
                                 description_invoice: str = None, cost_center_id: int = None):
+        """Method that creates new incoming invoice."""
         try:
             with SessionLocal() as db:
                 incoming_invoice_repository = IncomingInvoiceRepository(db)
@@ -17,10 +18,11 @@ class IncomingInvoiceService:
                     vat=vat, gross=gross, description_invoice=description_invoice,
                     supplier_id=supplier_id, cost_center_id=cost_center_id)
         except Exception as e:
-            return e
+            raise e
 
     @staticmethod
     def read_all_incoming_invoices():
+        """Method that shows all incoming invoices."""
         try:
             with SessionLocal() as db:
                 incoming_invoices = IncomingInvoiceRepository(db)
@@ -30,6 +32,7 @@ class IncomingInvoiceService:
 
     @staticmethod
     def read_incoming_invoice_by_id(incoming_invoice_id: int):
+        """Method that reads specific invoice based on invoice id."""
         try:
             with SessionLocal() as db:
                 incoming_invoice_repository = IncomingInvoiceRepository(db)
@@ -43,6 +46,7 @@ class IncomingInvoiceService:
                                       supplier_id: int = None, net: float = None, vat: float = None,
                                       gross: float = None,
                                       description_invoice: str = None, cost_center_id: int = None):
+        """Method that updates values in the database based on invoice id."""
         try:
             with SessionLocal() as db:
                 incoming_invoice_repository = IncomingInvoiceRepository(db)
@@ -55,6 +59,7 @@ class IncomingInvoiceService:
 
     @staticmethod
     def delete_incoming_invoice_by_id(incoming_invoice_id: int):
+        """Method that deletes incoming invoice by id."""
         try:
             with SessionLocal() as db:
                 incoming_invoice_repository = IncomingInvoiceRepository(db)
@@ -65,6 +70,7 @@ class IncomingInvoiceService:
 
     @staticmethod
     def sum_incoming_invoices_grouped_by_suppliers():
+        """Method that shows sum of incoming invoices grouped by suppliers."""
         try:
             with SessionLocal() as db:
                 incoming_invoices = IncomingInvoiceRepository(db)
@@ -74,6 +80,7 @@ class IncomingInvoiceService:
 
     @staticmethod
     def sum_incoming_invoices_grouped_by_cost_centers():
+        """Method that shows sum of incoming invoices grouped by cost centers."""
         try:
             with SessionLocal() as db:
                 incoming_invoices = IncomingInvoiceRepository(db)
@@ -83,6 +90,7 @@ class IncomingInvoiceService:
 
     @staticmethod
     def sum_incoming_invoices_by_years_and_months():
+        """Method that shows sum of incoming invoices grouped by years and months."""
         try:
             with SessionLocal() as db:
                 incoming_invoices = IncomingInvoiceRepository(db)
@@ -91,7 +99,8 @@ class IncomingInvoiceService:
             raise e
 
     @staticmethod
-    def find_difference_incoming_invoice_gross_and_invoice_payments():
+    def find_difference_incoming_invoice_gross_and_invoice_payments() -> list[dict]:
+        """Method that shows gross income, payments and difference between the two."""
         try:
             with SessionLocal() as db:
                 incoming_invoices_repository = IncomingInvoiceRepository(db)

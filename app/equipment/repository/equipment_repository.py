@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
+from datetime import datetime
 from app.equipment.models import Equipment
-from app.equipment.exceptions import EquipmentDoesNotExistInTheDatabaseException
+from app.equipment.exceptions import EquipmentDoesNotExistInTheDatabaseException, InvalidInputException
 
 
 class EquipmentRepository:
@@ -11,6 +13,13 @@ class EquipmentRepository:
                              vat: float, date_of_purchase: str, shop_name: str,
                              date_of_transaction: str = None) -> Equipment:
         try:
+            if date_of_transaction is not None:
+                conv_date_of_purchase = datetime.strptime(date_of_purchase, "%Y-%m-%d")
+                conv_date_of_transaction = datetime.strptime(date_of_transaction, "%Y-%m-%d")
+                if conv_date_of_purchase > conv_date_of_transaction:
+                    raise InvalidInputException(message="Invalid date input.", code=400)
+            if net < 0 or vat < 0:
+                raise InvalidInputException(message="Invalid date input.", code=400)
             equipment = Equipment(invoice_code=invoice_code, name=name, category=category, serial_number=serial_number,
                                   net=net, vat=vat, date_of_purchase=date_of_purchase,
                                   date_of_transaction=date_of_transaction, shop_name=shop_name)
@@ -18,6 +27,8 @@ class EquipmentRepository:
             self.db.commit()
             self.db.refresh(equipment)
             return equipment
+        except IntegrityError as e:
+            raise e
         except Exception as e:
             raise e
 
