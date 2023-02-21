@@ -1,6 +1,6 @@
-from app.db import Base
-from sqlalchemy import Column, String, ForeignKey, Date, Float, Boolean, Integer
 from datetime import datetime
+from sqlalchemy import Column, String, ForeignKey, Date, Float, Boolean, Integer
+from app.db import Base
 
 
 class EmploymentContract(Base):
@@ -10,8 +10,8 @@ class EmploymentContract(Base):
     id_row = Column(Integer, primary_key=True, autoincrement=True)
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=True)
-    contract_type = Column(String(50), nullable=False)  # todo add constraint
-    paycheck = Column(Float, nullable=False)  # todo add constraint
+    contract_type = Column(String(50), nullable=False)
+    paycheck = Column(Float, nullable=False)
     is_active = Column(Boolean, default=True)
 
     fk_employee_id = Column(Integer, ForeignKey("employees.id_employee"), nullable=False)

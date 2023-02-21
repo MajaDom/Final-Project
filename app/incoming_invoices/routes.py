@@ -113,7 +113,8 @@ def create_incoming_invoice_payment(incoming_invoice_payment: IncomingInvoicePay
 
 
 @incoming_invoice_payments_router.get("/get-all-incoming_invoices-payments",
-                                      response_model=list[IncomingInvoicePaymentSchema])
+                                      response_model=list[IncomingInvoicePaymentSchema],
+                                      dependencies=[Depends(JWTBearer("super_user"))])
 def get_all_incoming_invoices_payments():
     return IncomingInvoicePaymentController.get_all_incoming_invoices_payments()
 
@@ -137,12 +138,14 @@ def update_incoming_invoice_payment_by_id(incoming_invoice_payment_id: int,
         incoming_invoice_id=incoming_invoice_payment.incoming_invoice_id)
 
 
-@incoming_invoice_payments_router.delete("/delete-incoming-invoice-payment-by-id")
+@incoming_invoice_payments_router.delete("/delete-incoming-invoice-payment-by-id",
+                                         dependencies=[Depends(JWTBearer("super_user"))])
 def delete_incoming_invoice_payment_by_id(incoming_invoice_payment_id: int):
     return IncomingInvoicePaymentController.delete_incoming_invoice_payment_by_id(
         incoming_invoice_payment_id=incoming_invoice_payment_id)
 
 
-@incoming_invoice_payments_router.get("/get-sum-incoming-invoice-payments")
+@incoming_invoice_payments_router.get("/get-sum-incoming-invoice-payments",
+                                      dependencies=[Depends(JWTBearer("super_user"))])
 def get_sum_incoming_invoice_payments():
     return IncomingInvoicePaymentController.sum_incoming_invoice_payments()

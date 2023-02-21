@@ -1,7 +1,7 @@
+from fastapi import HTTPException, Response
 from app.equipment.services import AssignedEquipmentService
 from app.equipment.exceptions import AssignedEquipmentDoesNotExistInTheDatabaseException, \
     EquipmentHasBeenAssignedException, InvalidInputException
-from fastapi import HTTPException, Response
 
 
 class AssignedEquipmentController:

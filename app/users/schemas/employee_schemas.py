@@ -1,8 +1,5 @@
-from pydantic import BaseModel
 from typing import Optional
-
-from app.equipment.schemas import AssignedEquipmentSchema
-from app.users.schemas import EmploymentContractSchema
+from pydantic import BaseModel
 
 
 class EmployeeSchema(BaseModel):
@@ -35,6 +32,3 @@ class EmployeeSchemaUpdate(BaseModel):
 
     class Config:
         orm_mode = True
-
-
-

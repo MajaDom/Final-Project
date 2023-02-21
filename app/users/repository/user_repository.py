@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from app.users.exceptions import UserNotFoundException, UserMissingDataException
+from app.users.exceptions import UserNotFoundException
 from app.users.models import User
 
 

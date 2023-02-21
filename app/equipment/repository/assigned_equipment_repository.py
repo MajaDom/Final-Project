@@ -2,7 +2,8 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.equipment.models import AssignedEquipment
-from app.equipment.exceptions import *
+from app.equipment.exceptions import InvalidInputException, AssignedEquipmentDoesNotExistInTheDatabaseException, \
+    EquipmentDoesNotExistInTheDatabaseException
 
 
 class AssignedEquipmentRepository:

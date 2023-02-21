@@ -6,7 +6,7 @@ from app.users.controller.user_auth_controller import JWTBearer
 user_router = APIRouter(tags=["User"], prefix="/api/users")
 
 
-@user_router.post("/create-new-user", response_model=UserSchema)
+@user_router.post("/create-new-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
 def create_user(user: UserSchemaIN):
     """
     - Method that activates user based on the user id provided.
@@ -53,14 +53,14 @@ def get_user_by_name(user_name: str):
     return UserController.get_user_by_name(user_name=user_name)
 
 
-@user_router.put("/update-user-data", response_model=UserSchema)
+@user_router.put("/update-user-data", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
 def update_user_by_id(user_id: str, user: UserSchemaUpdate or None):
     """Method that updates existing values in teh database based on user id."""
     return UserController.update_user_by_id(user_id=user_id, user_name=user.user_name, user_email=user.email,
                                             password=user.password)
 
 
-@user_router.put("/update-user-is-admin", response_model=UserSchema)
+@user_router.put("/update-user-is-admin", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
 def update_user_is_admin(user_name: str):
     """
     - Method that activates user based on the user id provided.
@@ -72,7 +72,7 @@ def update_user_is_admin(user_name: str):
     return UserController.update_user_is_admin(user_name=user_name)
 
 
-@user_router.delete("/delete-user-by-id")
+@user_router.delete("/delete-user-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_user_by_id(user_id: str):
     """
     - Method that deletes user based on user id provided.
@@ -81,7 +81,7 @@ def delete_user_by_id(user_id: str):
     return UserController.delete_user_by_id(user_id=user_id)
 
 
-@user_router.put("/deactivate-user-by-id")
+@user_router.put("/deactivate-user-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def deactivate_user_by_id(user_id: str):
     """
     - Method that deactivates user based on user id provided.
@@ -90,7 +90,7 @@ def deactivate_user_by_id(user_id: str):
     return UserController.deactivate_user_by_id(user_id=user_id)
 
 
-@user_router.put("/activate-user-by-id")
+@user_router.put("/activate-user-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def activate_user_by_id(user_id: str):
     """
     - Method that activates user based on the user id provided.
@@ -112,7 +112,9 @@ def login_user(user: UserSchemaLogin):
 employee_router = APIRouter(tags=["Employee"], prefix="/api/employees")
 
 
-@employee_router.post("/create-new-employee", response_model=EmployeeSchema)
+@employee_router.post("/create-new-employee",
+                      response_model=EmployeeSchema,
+                      dependencies=[Depends(JWTBearer("super_user"))])
 def create_employee(employee: EmployeeSchemaIN):
     """
     - Method that creates new employee.
@@ -168,7 +170,9 @@ def get_employees_by_last_name(last_name: str):
     return EmployeeController.get_employee_by_last_name(last_name=last_name)
 
 
-@employee_router.put("/update-employee-data", response_model=EmployeeSchema)
+@employee_router.put("/update-employee-data",
+                     response_model=EmployeeSchema,
+                     dependencies=[Depends(JWTBearer("super_user"))])
 def update_employee_by_id(employee_id: int, employee: EmployeeSchemaUpdate):
     """
     - Method that updates existing values in the database based on employee id.
@@ -183,7 +187,8 @@ def update_employee_by_id(employee_id: int, employee: EmployeeSchemaUpdate):
                                                     contact=employee.contact, user_id=employee.user_id)
 
 
-@employee_router.delete("/delete-employee-by-id")
+@employee_router.delete("/delete-employee-by-id",
+                        dependencies=[Depends(JWTBearer("super_user"))])
 def delete_employee_by_id(employee_id: int):
     """
     - Method that deletes employee based on employee id.
@@ -192,7 +197,7 @@ def delete_employee_by_id(employee_id: int):
     return EmployeeController.delete_employee_by_id(employee_id)
 
 
-@employee_router.put("/deactivate-employee-by-id")
+@employee_router.put("/deactivate-employee-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def deactivate_employee_by_id(employee_id: int):
     """
     - Method that deactivates employee based on employee id.
@@ -201,7 +206,7 @@ def deactivate_employee_by_id(employee_id: int):
     return EmployeeController.deactivate_employee(employee_id=employee_id)
 
 
-@employee_router.put("/deactivate-employee-if-conditions-are-met")
+@employee_router.put("/deactivate-employee-if-conditions-are-met", dependencies=[Depends(JWTBearer("super_user"))])
 def deactivate_employee_if_conditions_are_met(employee_id: int):
     """
     - Method that deactivates (fires) employee, and returns a list of currently assigned equipment if there is any.
@@ -213,7 +218,9 @@ def deactivate_employee_if_conditions_are_met(employee_id: int):
 employment_contract_router = APIRouter(tags=["Employment Contracts"], prefix="/api/employment-contracts")
 
 
-@employment_contract_router.post("/create-new-contract", response_model=EmploymentContractSchema)
+@employment_contract_router.post("/create-new-contract",
+                                 response_model=EmploymentContractSchema,
+                                 dependencies=[Depends(JWTBearer("super_user"))])
 def create_employment_contract(employment_contract: EmploymentContractSchemaIn):
     """
     - Create new employee contract.
@@ -230,14 +237,17 @@ def create_employment_contract(employment_contract: EmploymentContractSchemaIn):
                                                             employee_id=employment_contract.fk_employee_id)
 
 
-@employment_contract_router.get("/get-all-contracts", response_model=list[EmploymentContractSchema])
+@employment_contract_router.get("/get-all-contracts",
+                                response_model=list[EmploymentContractSchema],
+                                dependencies=[Depends(JWTBearer("super_user"))])
 def get_all_employment_contracts():
     """Read all contracts."""
     return EmploymentContractController.read_all_employment_contracts()
 
 
 @employment_contract_router.get("/get-all-contracts-for-employee-by-employee-id",
-                                response_model=list[EmploymentContractSchema])
+                                response_model=list[EmploymentContractSchema],
+                                dependencies=[Depends(JWTBearer("super_user"))])
 def get_all_employment_contracts_for_one_employee_by_id(employee_id: int):
     """
     - Read all contracts based on defined employee.
@@ -247,7 +257,8 @@ def get_all_employment_contracts_for_one_employee_by_id(employee_id: int):
 
 
 @employment_contract_router.put("/update-active-contract-for-employee-by-employee-id",
-                                response_model=EmploymentContractSchema)
+                                response_model=EmploymentContractSchema,
+                                dependencies=[Depends(JWTBearer("super_user"))])
 def update_employment_contract(employee_id: int, employment_contract: EmploymentContractSchemaUpdate):
     """
     - Method that updates values from the existing contracts. Only active contracts can be updated.
@@ -264,7 +275,9 @@ def update_employment_contract(employee_id: int, employment_contract: Employment
                                                                    paycheck=employment_contract.paycheck)
 
 
-@employment_contract_router.put("/archive-contract", response_model=EmploymentContractSchema)
+@employment_contract_router.put("/archive-contract",
+                                response_model=EmploymentContractSchema,
+                                dependencies=[Depends(JWTBearer("super_user"))])
 def archive_contract(employee_id: int):
     """
     - Method that archives contract.
@@ -274,7 +287,8 @@ def archive_contract(employee_id: int):
 
 
 @employment_contract_router.get("/get-all-contracts-that-are-going-to-expire-in-less-than-15-days",
-                                response_model=list[EmploymentContractSchema])
+                                response_model=list[EmploymentContractSchema],
+                                dependencies=[Depends(JWTBearer("super_user"))])
 def get_contracts_that_are_going_to_expire_in_15_days():
     """Method that shows contracts that are going to expire in less than 15 days."""
     return EmploymentContractController.read_contracts_that_are_going_to_expire_in_15_days()

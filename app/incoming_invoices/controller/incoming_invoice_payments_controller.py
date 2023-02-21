@@ -1,7 +1,7 @@
+from fastapi import HTTPException, Response
 from app.incoming_invoices.services import IncomingInvoicePaymentService
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException, \
-    IncomingInvoicePaymentDoesNotExistInTheDatabaseException
-from fastapi import HTTPException, Response
+    IncomingInvoicePaymentDoesNotExistInTheDatabaseException, InvalidInputException
 
 
 class IncomingInvoicePaymentController:
@@ -14,8 +14,10 @@ class IncomingInvoicePaymentController:
                 payment_date=payment_date, payment=payment, incoming_invoice_id=incoming_invoice_id,
                 payment_description=payment_description)
             return incoming_invoice_payment
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
-            raise e
+            raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
     @staticmethod
     def get_all_incoming_invoices_payments():
@@ -46,6 +48,8 @@ class IncomingInvoicePaymentController:
                 payment_date=payment_date, payment_description=payment_description,
                 payment=payment, incoming_invoice_id=incoming_invoice_id)
             return incoming_invoice_payment
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except IncomingInvoicePaymentDoesNotExistInTheDatabaseException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:

@@ -10,6 +10,18 @@ equipment_router = APIRouter(tags=["Equipment"], prefix="/api/equipment")
                        response_model=EquipmentSchema,
                        dependencies=[Depends(JWTBearer("super_user"))])
 def create_new_equipment(equipment: EquipmentSchemaSchemaIN):
+    """
+    - Method that creates new equipment.
+    - **invoice_code**: mandatory field
+    - **name**: mandatory field
+    - **category**: mandatory field
+    - **serial_number**: mandatory field
+    - **net**: mandatory field
+    - **vat**: mandatory field
+    - **date_of_purchase**: mandatory field
+    - **date_of_transaction**: not mandatory
+    - **shop_name**: mandatory field
+    """
     return EquipmentController.create_equipment(invoice_code=equipment.invoice_code, name=equipment.name,
                                                 category=equipment.category, serial_number=equipment.serial_number,
                                                 net=equipment.net, vat=equipment.vat,
@@ -20,22 +32,34 @@ def create_new_equipment(equipment: EquipmentSchemaSchemaIN):
 
 @equipment_router.get("/get-all-equipment", response_model=list[EquipmentSchema])
 def get_all_equipment():
+    """Method that returns all equipment from the database."""
     return EquipmentController.get_all_equipment()
 
 
 @equipment_router.get("/get-equipment-by-id", response_model=EquipmentSchema)
 def get_equipment_by_id(equipment_id: int):
-    """"""
+    """
+    - Method that returns equipment based on id.
+    - **equipment_id**: mandatory parameter
+    """
     return EquipmentController.get_equipment_by_id(equipment_id=equipment_id)
 
 
 @equipment_router.get("/get-equipment-by-category", response_model=list[EquipmentSchema])
 def get_equipment_by_category(category: str):
+    """
+    - Method that returns equipment based on category.
+    - **category**: mandatory parameter
+    """
     return EquipmentController.get_equipment_by_category(category=category)
 
 
 @equipment_router.get("/get-equipment-by-name", response_model=list[EquipmentSchema])
 def get_equipment_by_name(name: str):
+    """
+    - Method that returns equipment based on name.
+    - **name**: mandatory parameter
+    """
     return EquipmentController.get_equipment_by_name(name=name)
 
 
@@ -43,6 +67,17 @@ def get_equipment_by_name(name: str):
                       response_model=EquipmentSchema,
                       dependencies=[Depends(JWTBearer("super_user"))])
 def update_equipment_by_id(equipment_id: int, equipment: EquipmentSchemaUpdate):
+    """Method that updates existing values from the database. No parameter is mandatory.
+    - **invoice_code**: not mandatory
+    - **name**: not mandatory
+    - **category**: not mandatory
+    - **serial_number**: not mandatory
+    - **net**: not mandatory
+    - **vat**: not mandatory
+    - **date_of_purchase**: not mandatory
+    - **date_of_transaction**: not mandatory
+    - **shop_name**: not mandatory
+    """
     return EquipmentController.update_equipment_by_id(invoice_code=equipment.invoice_code, name=equipment.name,
                                                       category=equipment.category,
                                                       serial_number=equipment.serial_number,
@@ -55,6 +90,10 @@ def update_equipment_by_id(equipment_id: int, equipment: EquipmentSchemaUpdate):
 
 @equipment_router.delete("/delete-equipment-by-id",dependencies=[Depends(JWTBearer("super_user"))])
 def delete_equipment_by_id(equipment_id: int):
+    """
+    - Method that deletes equipment from the database based on equipment id.
+    - **equipment_id**: mandatory parameter
+    """
     return EquipmentController.delete_equipment_by_id(equipment_id)
 
 
@@ -66,12 +105,12 @@ assigned_equipment_router = APIRouter(tags=["Assigned Equipment"], prefix="/api/
                                 dependencies=[Depends(JWTBearer("super_user"))])
 def assign_new_equipment(assigned_equipment: AssignedEquipmentSchemaIN):
     """
-        - Method that creates new assigned equipment.
-        - **start_date**: mandatory field
-        - **id_employee**: mandatory field
-        - **equipment_id**: mandatory field
-        - **end_date**: not a mandatory field
-        """
+    - Method that creates new equipment and assigns it to an employee.
+    - **start_date**: mandatory field
+    - **id_employee**: mandatory field
+    - **equipment_id**: mandatory field
+    - **end_date**: not a mandatory field
+    """
     return AssignedEquipmentController.create_assigned_equipment(start_date=assigned_equipment.start_date,
                                                                  id_employee=assigned_equipment.id_employee,
                                                                  equipment_id=assigned_equipment.equipment_id,

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.clients.models import Client
-from app.clients.exceptions import *
+from app.clients.exceptions import ClientWithIdDoesNotExistInTheDatabaseException
 
 
 class ClientRepository:

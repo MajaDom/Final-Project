@@ -1,6 +1,6 @@
-from app.db import Base
-from sqlalchemy import Column, Integer, Date, ForeignKey
 from datetime import datetime
+from sqlalchemy import Column, Integer, Date, ForeignKey
+from app.db import Base
 
 
 class AssignedEquipment(Base):
@@ -22,4 +22,3 @@ class AssignedEquipment(Base):
             self.end_date = datetime.strptime(end_date, "%Y-%m-%d")
         self.id_employee = id_employee
         self.equipment_id = equipment_id
-

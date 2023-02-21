@@ -1,3 +1,2 @@
 from .equipment_services import EquipmentService
 from .assigned_equipment_services import AssignedEquipmentService
-

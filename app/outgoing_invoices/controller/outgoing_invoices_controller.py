@@ -64,6 +64,8 @@ class OutgoingInvoiceController:
                 certified_invoice=certified_invoice, net=net, vat=vat,
                 gross=gross, description_invoice=description_invoice, cost_center_id=cost_center_id)
             return outgoing_invoice
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except OutgoingInvoiceDoesNotExistInTheDatabaseException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
@@ -115,4 +117,3 @@ class OutgoingInvoiceController:
             return outgoing_invoices_diff
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
-

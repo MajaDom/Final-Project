@@ -117,7 +117,8 @@ outgoing_invoice_payments_router = APIRouter(tags=["Outgoing Invoice Payments"],
 
 
 @outgoing_invoice_payments_router.post("/create-new-outgoing-invoice-payments",
-                                       response_model=OutgoingInvoicePaymentSchema)
+                                       response_model=OutgoingInvoicePaymentSchema,
+                                       dependencies=[Depends(JWTBearer("super_user"))])
 def create_outgoing_invoice_payment(outgoing_invoice_payment: OutgoingInvoicePaymentIN):
     """
     - Method that creates new outgoing invoice
@@ -133,7 +134,8 @@ def create_outgoing_invoice_payment(outgoing_invoice_payment: OutgoingInvoicePay
 
 
 @outgoing_invoice_payments_router.get("/get-all-outgoing_invoices-payments",
-                                      response_model=list[OutgoingInvoicePaymentSchema])
+                                      response_model=list[OutgoingInvoicePaymentSchema],
+                                      dependencies=[Depends(JWTBearer("super_user"))])
 def get_all_outgoing_invoices_payments():
     """Method that reads all outgoing invoice payments."""
     return OutgoingInvoicePaymentController.get_all_outgoing_invoices_payments()
@@ -170,7 +172,8 @@ def update_outgoing_invoice_payment_by_id(outgoing_invoice_payment_id: int,
         outgoing_invoice_id=outgoing_invoice_payment.outgoing_invoice_id)
 
 
-@outgoing_invoice_payments_router.delete("/delete-outgoing-invoice-payment-by-id")
+@outgoing_invoice_payments_router.delete("/delete-outgoing-invoice-payment-by-id",
+                                         dependencies=[Depends(JWTBearer("super_user"))])
 def delete_outgoing_invoice_payment_by_id(outgoing_invoice_payment_id: int):
     """
     - Method that deletes outgoing invoice based in payment id.
@@ -180,7 +183,8 @@ def delete_outgoing_invoice_payment_by_id(outgoing_invoice_payment_id: int):
         outgoing_invoice_payment_id=outgoing_invoice_payment_id)
 
 
-@outgoing_invoice_payments_router.get("/get-sum-outgoing-invoice-payments")
+@outgoing_invoice_payments_router.get("/get-sum-outgoing-invoice-payments",
+                                      dependencies=[Depends(JWTBearer("super_user"))])
 def get_sum_outgoing_invoice_payments():
     """Method that sums all invoice payments."""
     return OutgoingInvoicePaymentController.sum_outgoing_invoice_payments()

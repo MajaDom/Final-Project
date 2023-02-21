@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
+from datetime import datetime
 from app.clients.models import ClientContract
 from app.clients.exceptions import ContractNotFoundException, InvalidInputException
-from datetime import datetime
 
 
 class ClientContractRepository:
@@ -54,11 +54,19 @@ class ClientContractRepository:
         if contract_code is not None and contract_code != "":
             client_contract.contract_code = contract_code
         if start_date is not None and start_date != "":
-            client_contract.start_date = start_date
+            try:
+                datetime.strptime(start_date, "%Y-%m-%d")
+                client_contract.start_date = start_date
+            except Exception:
+                raise InvalidInputException(code=400, message="Invalid date input.")
         if contract_description is not None and contract_description != "":
             client_contract.contract_description = contract_description
         if end_date is not None and end_date != "":
-            client_contract.end_date = end_date
+            try:
+                datetime.strptime(end_date, "%Y-%m-%d")
+                client_contract.end_date = end_date
+            except InvalidInputException:
+                raise InvalidInputException(code=400, message="Invalid date input.")
         if client_id is not None and client_id != "":
             client_contract.client_id = client_id
 

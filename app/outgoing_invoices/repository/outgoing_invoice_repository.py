@@ -1,8 +1,8 @@
+from datetime import datetime
 import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from datetime import datetime
 from app.outgoing_invoices.models import OutgoingInvoice
 from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException, InvalidInputException
 
@@ -71,16 +71,30 @@ class OutgoingInvoiceRepository:
         if reference_code_invoice is not None and reference_code_invoice != "":
             outgoing_invoice.reference_code_invoice = reference_code_invoice
         if start_date is not None and start_date != "":
-            outgoing_invoice.start_date = start_date
+            try:
+                datetime.strptime(start_date, "%Y-%m-%d")
+                outgoing_invoice.start_date = start_date
+            except InvalidInputException:
+                raise InvalidInputException(message="Invalid date input.", code=400)
         if date_of_transaction is not None and date_of_transaction != "":
-            outgoing_invoice.date_of_transaction = date_of_transaction
+            try:
+                datetime.strptime(date_of_transaction, "%Y-%m-%d")
+                outgoing_invoice.date_of_transaction = date_of_transaction
+            except InvalidInputException:
+                raise InvalidInputException(message="Invalid date input.", code=400)
         if certified_invoice is not None and certified_invoice != "":
             outgoing_invoice.certified_invoice = certified_invoice
         if net is not None and net != "":
+            if net < 0:
+                raise InvalidInputException(message="Invalid net input.", code=400)
             outgoing_invoice.net = net
         if vat is not None and vat != "":
+            if vat < 0:
+                raise InvalidInputException(message="Invalid vat input.", code=400)
             outgoing_invoice.vat = vat
         if gross is not None and gross != "":
+            if gross < 0:
+                raise InvalidInputException(message="Invalid gross input.", code=400)
             outgoing_invoice.gross = gross
         if description_invoice is not None and description_invoice != "":
             outgoing_invoice.description_invoice = description_invoice
@@ -135,5 +149,3 @@ class OutgoingInvoiceRepository:
             dictionary = {year_month: row[1]}
             response.append(dictionary)
         return response
-
-

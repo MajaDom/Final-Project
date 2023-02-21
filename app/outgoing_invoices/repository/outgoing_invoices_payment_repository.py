@@ -1,9 +1,9 @@
+from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.outgoing_invoices.models import OutgoingInvoicePayment
 from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException, \
     OutgoingInvoicePaymentDoesNotExistInTheDatabaseException, InvalidInputException
-from datetime import datetime
 
 
 class OutgoingInvoicePaymentRepository:

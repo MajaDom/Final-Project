@@ -1,6 +1,6 @@
-from app.db import Base
-from sqlalchemy import Column, String, Integer, Date, Float, ForeignKey
 from datetime import datetime
+from sqlalchemy import Column, String, Integer, Date, Float, ForeignKey
+from app.db import Base
 
 
 class IncomingInvoice(Base):

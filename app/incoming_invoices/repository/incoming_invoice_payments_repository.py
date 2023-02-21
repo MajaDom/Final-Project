@@ -60,11 +60,13 @@ class IncomingInvoicePaymentRepository:
             try:
                 datetime.strptime(payment_date, "%Y-%m-%d")
                 incoming_invoice_payment.payment_date = payment_date
-            except Exception as e:
-                raise e
+            except Exception:
+                raise InvalidInputException(code=400, message="Invalid Input.")
         if payment_description is not None and payment_description != "":
             incoming_invoice_payment.payment_description = payment_description
         if payment is not None and payment != "":
+            if payment < 0:
+                raise InvalidInputException(code=400, message="Invalid Input.")
             incoming_invoice_payment.payment = payment
         if incoming_invoice_id is not None and incoming_invoice_id != "":
             incoming_invoice_payment.incoming_invoice_id = incoming_invoice_id

@@ -1,9 +1,9 @@
+from fastapi import HTTPException, Response
 from app.equipment.models import AssignedEquipment
 from app.users.services import EmployeeService
 from app.users.services import EmploymentContractService
 from app.equipment.services import AssignedEquipmentService
 from app.users.exceptions import EmployeeNotFoundException, NoActiveContractsForEmployeeException
-from fastapi import HTTPException, Response
 
 
 class EmployeeController:

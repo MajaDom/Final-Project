@@ -8,6 +8,7 @@ class EquipmentService:
     def create_equipment(invoice_code: str, name: str, category: str, serial_number: str, net: float,
                          vat: float, date_of_purchase: str, shop_name: str,
                          date_of_transaction: str = None):
+        """Method that creates new equipment."""
         try:
             with SessionLocal() as db:
                 equipment_repository = EquipmentRepository(db)
@@ -21,6 +22,7 @@ class EquipmentService:
 
     @staticmethod
     def read_all_equipment():
+        """Method that returns all equipment from the database."""
         try:
             with SessionLocal() as db:
                 equipment = EquipmentRepository(db)
@@ -30,6 +32,7 @@ class EquipmentService:
 
     @staticmethod
     def read_equipment_by_id(equipment_id: int):
+        """Method that returns equipment based on id."""
         try:
             with SessionLocal() as db:
                 equipment_repository = EquipmentRepository(db)
@@ -39,6 +42,7 @@ class EquipmentService:
 
     @staticmethod
     def read_equipment_by_category(category: str):
+        """Method that returns equipment based on category."""
         try:
             with SessionLocal() as db:
                 equipment_repository = EquipmentRepository(db)
@@ -48,6 +52,7 @@ class EquipmentService:
 
     @staticmethod
     def read_equipment_by_name(name: str):
+        """Method that returns equipment based on name."""
         try:
             with SessionLocal() as db:
                 equipment_repository = EquipmentRepository(db)
@@ -60,6 +65,7 @@ class EquipmentService:
                                category: str = None, serial_number: str = None, net: float = None,
                                vat: float = None, date_of_purchase: str = None, shop_name: str = None,
                                date_of_transaction: str = None):
+        """Method that updates existing values from the database. No parameter is mandatory."""
         try:
             with SessionLocal() as db:
                 equipment_repository = EquipmentRepository(db)
@@ -75,6 +81,7 @@ class EquipmentService:
 
     @staticmethod
     def delete_equipment_by_id(equipment_id: int):
+        """Method that deletes equipment from the database based on equipment id."""
         try:
             with SessionLocal() as db:
                 equipment_repository = EquipmentRepository(db)

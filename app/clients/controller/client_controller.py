@@ -13,7 +13,7 @@ class ClientController:
             client = ClientService.create_client(client_name=client_name, contact=contact)
             return client
         except IntegrityError as e:
-            raise HTTPException(status_code=400, detail=(str(e)))
+            raise HTTPException(status_code=400, detail=str(e))
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
@@ -69,4 +69,3 @@ class ClientController:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
-

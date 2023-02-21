@@ -1,6 +1,6 @@
+from sqlalchemy.exc import IntegrityError
 from app.db import SessionLocal
 from app.clients.repository import ClientContractRepository
-from sqlalchemy.exc import IntegrityError
 
 
 class ClientContractService:
@@ -49,11 +49,12 @@ class ClientContractService:
         try:
             with SessionLocal() as db:
                 client_contract_repository = ClientContractRepository(db)
-                return client_contract_repository.update_client_contract_by_id(client_contract_id=client_contract_id,
-                                                                               contract_code=contract_code,
-                                                                               start_date=start_date,
-                                                                               contract_description=contract_description,
-                                                                               end_date=end_date, client_id=client_id)
+                return client_contract_repository.update_client_contract_by_id(
+                    client_contract_id=client_contract_id,
+                    contract_code=contract_code,
+                    start_date=start_date,
+                    contract_description=contract_description,
+                    end_date=end_date, client_id=client_id)
         except Exception as e:
             raise e
 

@@ -1,6 +1,6 @@
-from pydantic import BaseModel
 from typing import Optional
 from datetime import date
+from pydantic import BaseModel
 
 
 class IncomingInvoiceSchema(BaseModel):

@@ -1,11 +1,14 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from app.suppliers.controller import SupplierController
 from app.suppliers.schemas import SupplierSchema, SupplierSchemaUpdate, SupplierSchemaIN
+from app.users.controller.user_auth_controller import JWTBearer
 
 supplier_router = APIRouter(tags=["Supplier"], prefix="/api/supplier")
 
 
-@supplier_router.post("/create-new-supplier", response_model=SupplierSchema)
+@supplier_router.post("/create-new-supplier",
+                      response_model=SupplierSchema,
+                      dependencies=[Depends(JWTBearer("super_user"))])
 def create_supplier(supplier: SupplierSchemaIN):
     """
     - Method that creates new suppliers in the database.
@@ -40,7 +43,7 @@ def get_supplier_by_name(supplier_name: str):
     return SupplierController.get_supplier_by_name(supplier_name=supplier_name)
 
 
-@supplier_router.put("/update-supplier-data")
+@supplier_router.put("/update-supplier-data", dependencies=[Depends(JWTBearer("super_user"))])
 def update_supplier_by_id(supplier_id: int, supplier: SupplierSchemaUpdate):
     """
     - Method that allows data update of the supplier whose id has been provided.
@@ -51,7 +54,7 @@ def update_supplier_by_id(supplier_id: int, supplier: SupplierSchemaUpdate):
                                                     contact=supplier.contact)
 
 
-@supplier_router.delete("/delete-supplier-by-id")
+@supplier_router.delete("/delete-supplier-by-id", dependencies=[Depends(JWTBearer("super_user"))])
 def delete_supplier_by_id(supplier_id: int):
     """
     - Method that allows data update of the supplier whose id has been provided.

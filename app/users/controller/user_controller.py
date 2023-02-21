@@ -1,5 +1,5 @@
-from app.users.services import UserServices, sign_jwt
 from fastapi import HTTPException, Response
+from app.users.services import UserServices, sign_jwt
 from app.users.exceptions import *
 
 

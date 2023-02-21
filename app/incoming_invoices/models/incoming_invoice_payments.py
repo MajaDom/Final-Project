@@ -1,6 +1,6 @@
-from app.db import Base
 from sqlalchemy import Column, String, Integer, Date, Float, ForeignKey
 from datetime import datetime
+from app.db import Base
 
 
 class IncomingInvoicePayment(Base):
@@ -19,4 +19,3 @@ class IncomingInvoicePayment(Base):
         self.payment_description = payment_description
         self.payment = payment
         self.incoming_invoice_id = incoming_invoice_id
-

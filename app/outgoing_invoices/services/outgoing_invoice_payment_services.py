@@ -75,4 +75,3 @@ class OutgoingInvoicePaymentService:
                 return result
         except Exception as e:
             raise e
-

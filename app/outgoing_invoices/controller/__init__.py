@@ -1,3 +1,2 @@
 from .outgoing_invoices_controller import OutgoingInvoiceController
 from .outgoing_invoice_payments_controller import OutgoingInvoicePaymentController
-

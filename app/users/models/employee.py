@@ -1,6 +1,5 @@
-from app.db import Base
 from sqlalchemy import Column, String, ForeignKey, Integer, Boolean
-from sqlalchemy.orm import relationship
+from app.db import Base
 
 
 class Employee(Base):

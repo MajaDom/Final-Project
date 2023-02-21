@@ -1,6 +1,6 @@
 from app.db import SessionLocal
 from app.equipment.repository import AssignedEquipmentRepository
-from app.equipment.exceptions import *
+from app.equipment.exceptions import EquipmentHasBeenAssignedException, AssignedEquipmentDoesNotExistInTheDatabaseException
 
 
 class AssignedEquipmentService:

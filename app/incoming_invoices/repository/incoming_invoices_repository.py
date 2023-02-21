@@ -1,7 +1,7 @@
+from datetime import datetime
 import sqlalchemy
 from sqlalchemy import func
 from sqlalchemy.orm import Session
-from datetime import datetime
 from app.incoming_invoices.models import IncomingInvoice
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException, InvalidInputException
 
@@ -65,14 +65,24 @@ class IncomingInvoiceRepository:
         if number_invoice is not None and number_invoice != "":
             incoming_invoice.number_invoice = number_invoice
         if invoice_date is not None and invoice_date != "":
-            incoming_invoice.invoice_date = invoice_date
+            try:
+                datetime.strptime(invoice_date, "%Y-%m-%d")
+                incoming_invoice.invoice_date = invoice_date
+            except InvalidInputException:
+                raise InvalidInputException(code=400, message="Invalid Input.")
         if supplier_id is not None and supplier_id != "":
             incoming_invoice.supplier_id = supplier_id
         if net is not None and net != "":
+            if net < 0:
+                raise InvalidInputException(code=400, message="Invalid Input.")
             incoming_invoice.net = net
         if vat is not None and vat != "":
+            if vat < 0:
+                raise InvalidInputException(code=400, message="Invalid Input.")
             incoming_invoice.vat = vat
         if gross is not None and gross != "":
+            if gross < 0:
+                raise InvalidInputException(code=400, message="Invalid Input.")
             incoming_invoice.gross = gross
         if description_invoice is not None and description_invoice != "":
             incoming_invoice.description_invoice = description_invoice

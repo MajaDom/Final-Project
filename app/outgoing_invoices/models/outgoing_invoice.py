@@ -1,6 +1,6 @@
-from app.db import Base
-from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey
 from datetime import datetime
+from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey
+from app.db import Base
 
 
 class OutgoingInvoice(Base):
@@ -33,4 +33,3 @@ class OutgoingInvoice(Base):
         self.certified_invoice = certified_invoice
         self.client_id = client_id
         self.cost_center_id = cost_center_id
-

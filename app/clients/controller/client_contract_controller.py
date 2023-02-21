@@ -1,7 +1,7 @@
-from app.clients.services import ClientContractService
-from app.clients.exceptions import ContractNotFoundException, InvalidInputException
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
+from app.clients.services import ClientContractService
+from app.clients.exceptions import ContractNotFoundException, InvalidInputException
 
 
 class ClientContractController:
@@ -53,6 +53,8 @@ class ClientContractController:
                 client_contract_id=client_contract_id, contract_code=contract_code, start_date=start_date,
                 contract_description=contract_description, end_date=end_date, client_id=client_id)
             return client_contract
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except ContractNotFoundException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:

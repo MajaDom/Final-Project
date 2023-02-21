@@ -1,5 +1,5 @@
+from sqlalchemy import Column, String, Integer
 from app.db import Base
-from sqlalchemy import Column, String, Integer, Boolean
 
 
 class CostCenter(Base):

@@ -1,6 +1,7 @@
+from fastapi import HTTPException
 from app.users.services import EmploymentContractService
-from fastapi import HTTPException, Response
-from app.users.exceptions import *
+from app.users.exceptions import EmployeeInactiveException, InvalidInputException, ExistingActiveContractException, \
+    NoActiveContractsForEmployeeException, NoContractsForEmployeeException
 
 
 class EmploymentContractController:
@@ -51,10 +52,12 @@ class EmploymentContractController:
                                                                             contract_type=contract_type,
                                                                             paycheck=paycheck)
             return contract
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except NoActiveContractsForEmployeeException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
-            raise HTTPException(status_code=500, detail="Unknown error.")
+            raise HTTPException(status_code=500, detail=f"Unknown error:{str(e)}")
 
     @staticmethod
     def archive_contract(employee_id):

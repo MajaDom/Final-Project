@@ -1,7 +1,7 @@
+from fastapi import HTTPException, Response
 from app.outgoing_invoices.services import OutgoingInvoicePaymentService
 from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException, \
     OutgoingInvoicePaymentDoesNotExistInTheDatabaseException, InvalidInputException
-from fastapi import HTTPException, Response
 
 
 class OutgoingInvoicePaymentController:

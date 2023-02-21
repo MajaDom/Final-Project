@@ -54,12 +54,22 @@ class EmploymentContractRepository:
                                                                 f"{employee_id}, and archived contracts can not be "
                                                                 f"changed")
         if start_date is not None and start_date != "":
-            employment_contract.start_date = start_date
+            try:
+                datetime.strptime(start_date, "%Y-%m-%d")
+                employment_contract.start_date = start_date
+            except InvalidInputException:
+                raise InvalidInputException(message="Invalid input for paycheck.", code=400)
         if end_date is not None and end_date != "":
-            employment_contract.end_date = end_date
+            try:
+                datetime.strptime(end_date, "%Y-%m-%d")
+                employment_contract.end_date = end_date
+            except InvalidInputException:
+                raise InvalidInputException(message="Invalid input for paycheck.", code=400)
         if contract_type is not None and contract_type != "":
             employment_contract.contract_type = contract_type
         if paycheck is not None and paycheck != "":
+            if paycheck < 0:
+                raise InvalidInputException(message="Invalid input for paycheck.", code=400)
             employment_contract.paycheck = paycheck
         self.db.add(employment_contract)
         self.db.commit()

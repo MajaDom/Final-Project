@@ -96,7 +96,7 @@ def get_all_client_contracts():
 @client_contract_router.get("/get-client-contract-by-id",
                             response_model=ClientContractSchema,
                             dependencies=[Depends(JWTBearer("super_user"))])
-def get_client_by_id(client_contract_id: int):
+def get_client_contract_by_id(client_contract_id: int):
     """
     - Method that retrieves a contract from the database based on contract id.
     - **client_contract_id**: mandatory parameter
