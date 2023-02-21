@@ -16,7 +16,6 @@ class EmploymentContract(Base):
 
     fk_employee_id = Column(Integer, ForeignKey("employees.id_employee"), nullable=False)
 
-    # todo database cant contain two active contracts for one employee
     def __init__(self, start_date, end_date, contract_type, paycheck, is_active, fk_employee_id):
         self.start_date = datetime.strptime(start_date, "%Y-%m-%d")
         if end_date is None or end_date == "":

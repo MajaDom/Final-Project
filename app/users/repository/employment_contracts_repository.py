@@ -10,14 +10,14 @@ class EmploymentContractRepository:
 
     def create_new_contract(self, start_date: str, contract_type: str, paycheck: float,
                             employee_id: int, end_date: str = None) -> EmploymentContract:
-        """"Create new employee contract"""
+        """Create new employee contract"""
         try:
             if end_date is not None:
                 conv_start_date = datetime.strptime(start_date, "%Y-%m-%d")
                 conv_end_date = datetime.strptime(end_date, "%Y-%m-%d")
                 if conv_start_date > conv_end_date:
                     raise InvalidInputException(message="Invalid date input.", code=400)
-            if paycheck <= 0:
+            if paycheck < 0:
                 raise InvalidInputException(message="Invalid input for paycheck.", code=400)
             employment_contract = EmploymentContract(start_date=start_date, end_date=end_date,
                                                      contract_type=contract_type, paycheck=paycheck,
@@ -30,22 +30,22 @@ class EmploymentContractRepository:
             raise e
 
     def read_contract_by_employee_id(self, id_employee: int) -> list[EmploymentContract]:
-        """"Read all contracts based on defined employee"""
+        """Read all contracts based on defined employee."""
         employment_contract = self.db.query(EmploymentContract).filter(
             EmploymentContract.fk_employee_id == id_employee).all()
         if employment_contract is None:
             raise NoActiveContractsForEmployeeException(
-                message=f"No active or archived contract for employee with id {id_employee} in the database",
-                code=400)  # todo try raise an error
+                message=f"No active or archived contract for employee with id {id_employee} in the database", code=400)
         return employment_contract
 
     def read_all_employment_contracts(self) -> list[EmploymentContract]:
-        """"Read all contracts"""
+        """Read all contracts."""
         return self.db.query(EmploymentContract).all()
 
     def update_employment_contract(self, employee_id: int, start_date: str = None, end_date: str = None,
                                    contract_type: str = None,
                                    paycheck: float = None) -> EmploymentContract:
+        """Method that updates values from the existing contracts. Only active contracts can be updated."""
         employment_contract = self.db.query(EmploymentContract).filter(
             EmploymentContract.fk_employee_id == employee_id, EmploymentContract.is_active == 1).first()
         if employment_contract is None:
@@ -67,6 +67,7 @@ class EmploymentContractRepository:
         return employment_contract
 
     def archive_contract(self, employee_id) -> EmploymentContract:
+        """Method that archives contract."""
         employment_contract = self.db.query(EmploymentContract).filter(EmploymentContract.fk_employee_id == employee_id,
                                                                        EmploymentContract.is_active == 1).first()
         if employment_contract is None:
@@ -81,6 +82,7 @@ class EmploymentContractRepository:
         return employment_contract
 
     def read_contracts_that_are_going_to_expire_in_15_days(self) -> list[EmploymentContract]:
+        """Method that shows contracts that are going to expire in less than 15 days."""
         contracts = self.db.query(EmploymentContract).filter(EmploymentContract.is_active == 1,
                                                              EmploymentContract.end_date.isnot(None)).all()
         renew = []

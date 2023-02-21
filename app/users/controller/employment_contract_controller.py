@@ -8,6 +8,7 @@ class EmploymentContractController:
     @staticmethod
     def create_new_contract(start_date: str, contract_type: str, paycheck: float,
                             employee_id, end_date: str = None):
+        """Create new employee contract."""
         try:
             return EmploymentContractService.create_new_contract(start_date=start_date, end_date=end_date,
                                                                  contract_type=contract_type,
@@ -23,6 +24,7 @@ class EmploymentContractController:
 
     @staticmethod
     def read_all_employment_contracts():
+        """Read all contracts."""
         try:
             return EmploymentContractService.read_all_employment_contracts()
         except Exception as e:
@@ -30,6 +32,7 @@ class EmploymentContractController:
 
     @staticmethod
     def read_contract_by_employee_id(id_employee: int):
+        """Read all contracts based on defined employee."""
         try:
             contracts = EmploymentContractService.read_contract_by_employee_id(id_employee=id_employee)
             return contracts
@@ -40,8 +43,8 @@ class EmploymentContractController:
 
     @staticmethod
     def update_employment_contract(employee_id: int, start_date: str = None, end_date: str = None,
-                                   contract_type: str = None,
-                                   paycheck: float = None):
+                                   contract_type: str = None, paycheck: float = None):
+        """Method that updates values from the existing contracts. Only active contracts can be updated."""
         try:
             contract = EmploymentContractService.update_employment_contract(employee_id=employee_id,
                                                                             start_date=start_date, end_date=end_date,
@@ -55,6 +58,7 @@ class EmploymentContractController:
 
     @staticmethod
     def archive_contract(employee_id):
+        """Method that archives contract."""
         try:
             contract = EmploymentContractService.archive_contract(employee_id=employee_id)
             return contract
@@ -65,6 +69,7 @@ class EmploymentContractController:
 
     @staticmethod
     def read_contracts_that_are_going_to_expire_in_15_days():
+        """Method that shows contracts that are going to expire in less than 15 days."""
         try:
             return EmploymentContractService.read_contracts_that_are_going_to_expire_in_15_days()
         except Exception as e:
