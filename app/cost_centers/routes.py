@@ -67,3 +67,9 @@ def delete_cost_center_by_id(cost_center_id: int):
     - **cost_center_id**: mandatory parameter
     """
     return CostCenterController.delete_cost_center_id(cost_center_id=cost_center_id)
+
+
+@cost_center_router.get("/get-incoming-outgoing-invoice-difference-cost-centers")
+def get_incoming_outgoing_invoice_difference_grouped_by_cost_centers():
+    """This method is showing total difference in incoming and outgoing invoices for every cost center."""
+    return CostCenterController.get_incoming_outgoing_invoice_difference_grouped_by_cost_centers()

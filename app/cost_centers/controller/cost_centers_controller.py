@@ -1,9 +1,10 @@
-# This class is responsible for handling all the business logic
-# related to cost centers
+""" This class is responsible for handling all the business logic related to cost centers """
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.cost_centers.services import CostCenterService
 from app.cost_centers.exceptions import CostCenterNotFoundException
+from app.incoming_invoices.services import IncomingInvoiceService
+from app.outgoing_invoices.services import OutgoingInvoicesService
 
 
 class CostCenterController:
@@ -72,3 +73,20 @@ class CostCenterController:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
+
+    @staticmethod
+    def get_incoming_outgoing_invoice_difference_grouped_by_cost_centers():
+        """This method is showing total difference in incoming and outgoing invoices for every cost center."""
+        incoming_invoices = IncomingInvoiceService.sum_incoming_invoices_grouped_by_cost_centers()
+        outgoing_invoices = OutgoingInvoicesService.sum_outgoing_invoices_grouped_by_cost_centers()
+        difference = {}
+        for outgoing in outgoing_invoices:
+            for key, value in outgoing.items():
+                difference[key] = {"Outgoing invoice": value}
+            print(outgoing)
+        for incoming in incoming_invoices:
+            for key, value in incoming.items():
+                difference[key]["Incoming invoice"] = value
+        for item in difference:
+            difference[item]["Difference"] = difference[item]["Outgoing invoice"] - difference[item]["Incoming invoice"]
+        return difference

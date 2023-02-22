@@ -1,4 +1,4 @@
-# It contains methods that perform CRUD operations on the database
+""" It contains methods that perform CRUD operations on the database"""
 from app.db import SessionLocal
 from app.users.repository import EmployeeRepository
 
