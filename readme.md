@@ -19,10 +19,14 @@ password - 123
 
 ### Lista predvidjenih ruta:
 * Create, read, update i delete za svaki od entiteta unutar baze podataka
-* Izvestaj ukupnih ulaznih troskova po mesecima
-* Izvestaj ukupnih izlaznih troskova po mesecima
-* Izvestaj ukupnih ulaznih troskova po mesecima
-* Izvestaj ukupnih izlaznih troskova po mesecima za odredjena gradilista
+* Izvestaj ukupnih ulaznih troskova po godinama i mesecima
+* Izvestaj ukupnih izlaznih troskova po godinama i mesecima
+* Izvestaj ukupnih ulaznih troskova za gradilista
+* Izvestaj ukupnih izlaznih troskova za gradilista
+* Izvestaj ukupnih ulaznih troskova po dobavljacima
+* Izvestaj ukupnih izlaznih troskova po klijentima
+* Razlike u ulaznim i izlaznim fakturama i odgovarajucim uplatama
+* Balans po gradilistima u odnosu na ulazne i izlazne fakture
 * Kontrola isteka ugovora za zaposlene
 
 
