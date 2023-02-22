@@ -1,3 +1,4 @@
+# It's a class that contains methods that allow you to perform CRUD operations on the database
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError

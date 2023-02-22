@@ -1,3 +1,4 @@
+# It's a schema for the employment contract table
 from datetime import date
 from typing import Optional
 from pydantic import BaseModel

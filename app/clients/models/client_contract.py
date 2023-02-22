@@ -1,8 +1,10 @@
+# The ClientContract class is a representation of the client_contracts table in the database
 from datetime import datetime
 from sqlalchemy import Column, String, Integer, Date, ForeignKey
 from app.db import Base
 
 
+# > This class is a representation of a client contract
 class ClientContract(Base):
     __tablename__ = "client_contracts"
     __table_args__ = {'mysql_engine': 'InnoDB'}

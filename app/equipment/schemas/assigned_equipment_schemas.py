@@ -1,3 +1,4 @@
+# A schema for the assigned equipment table.
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel

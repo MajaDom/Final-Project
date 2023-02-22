@@ -1,3 +1,5 @@
+# It's a repository class that handles all the database operations
+# for incoming invoice payments.
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.incoming_invoices.models import IncomingInvoicePayment

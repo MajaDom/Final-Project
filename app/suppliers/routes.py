@@ -1,3 +1,4 @@
+# Routes for Suppliers
 from fastapi import APIRouter, Depends
 from app.suppliers.controller import SupplierController
 from app.suppliers.schemas import SupplierSchema, SupplierSchemaUpdate, SupplierSchemaIN

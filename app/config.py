@@ -1,6 +1,8 @@
+# It inherits from BaseSettings, and it adds a few more settings
 from pydantic import BaseSettings
 
 
+# It inherits from BaseSettings, and it adds a few more settings
 class Settings(BaseSettings):
     DB_HOST: str
     DB_HOSTNAME: str

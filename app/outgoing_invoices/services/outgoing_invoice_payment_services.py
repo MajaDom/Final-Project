@@ -1,3 +1,4 @@
+# It's a class that contains methods that are used to create, read, update and delete outgoing invoice payments
 from app.db import SessionLocal
 from app.outgoing_invoices.repository import OutgoingInvoicePaymentRepository
 

@@ -1,3 +1,5 @@
+# IncomingInvoiceSchema is a class that inherits from BaseModel and has the following attributes: incoming_invoice_id,
+# reference_code_invoice, number_invoice, invoice_date, net, vat, gross, description_invoice, supplier_id, cost_center_id
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel

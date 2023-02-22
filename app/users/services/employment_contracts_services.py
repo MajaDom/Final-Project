@@ -1,3 +1,4 @@
+# This class is responsible for all the operations related to the employment contract.
 from app.db import SessionLocal
 from app.users.repository import EmploymentContractRepository, EmployeeRepository
 from app.users.exceptions import EmployeeInactiveException, ExistingActiveContractException
@@ -14,16 +15,16 @@ class EmploymentContractService:
                 if employee.read_employee_by_id(employee_id=employee_id).is_active == 0:
                     raise EmployeeInactiveException(message="Employee is fired, it is not possible to add new contract",
                                                     code=400)
-                contract = EmploymentContractRepository(db)
-                active_contract = contract.read_contract_by_employee_id(id_employee=employee_id)
+                contract_repo = EmploymentContractRepository(db)
+                active_contract = contract_repo.read_contract_by_employee_id(id_employee=employee_id)
                 for contract in active_contract:
                     if contract.is_active == 1:
                         raise ExistingActiveContractException(
                             message="There is already an active contract in the database, deactivate existing.",
                             code=400)
-                return contract.create_new_contract(start_date=start_date, end_date=end_date,
-                                                    contract_type=contract_type,
-                                                    paycheck=paycheck, employee_id=employee_id)
+                return contract_repo.create_new_contract(start_date=start_date, end_date=end_date,
+                                                         contract_type=contract_type,
+                                                         paycheck=paycheck, employee_id=employee_id)
         except Exception as e:
             raise e
 

@@ -1,3 +1,4 @@
+# routes for invoices
 from fastapi import APIRouter, Depends
 from app.incoming_invoices.controller import IncomingInvoiceController, IncomingInvoicePaymentController
 from app.incoming_invoices.schemas import *
@@ -11,15 +12,15 @@ incoming_invoice_router = APIRouter(tags=["Incoming Invoices"], prefix="/api/inc
 def create_incoming_invoice(incoming_invoice: IncomingInvoiceSchemaIN):
     """
     - Method that creates new incoming invoice.
-    -**reference_code_invoice**: mandatory field, but not unique
-    -**number_invoice**: mandatory field, but not unique
-    -**invoice_date**: mandatory field
-    -**net**: not mandatory, but values can not be less than 0
-    -**vat**: not mandatory, but values can not be less than 0
-    -**gross**: not mandatory, but values can not be less than 0
-    -**description_invoice**: not mandatory
-    -**supplier_id**: mandatory field
-    -**cost_center_id**: mandatory field
+    - **reference_code_invoice**: mandatory field, but not unique
+    - **number_invoice**: mandatory field, but not unique
+    - **invoice_date**: mandatory field
+    - **net**: not mandatory, but values can not be less than 0
+    - **vat**: not mandatory, but values can not be less than 0
+    - **gross**: not mandatory, but values can not be less than 0
+    - **description_invoice**: not mandatory
+    - **supplier_id**: mandatory field
+    - **cost_center_id**: mandatory field
     """
     return IncomingInvoiceController.create_incoming_invoice(
         reference_code_invoice=incoming_invoice.reference_code_invoice,

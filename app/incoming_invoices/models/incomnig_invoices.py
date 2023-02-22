@@ -1,3 +1,4 @@
+# IncomingInvoice is a class that inherits from Base, which is a class that inherits from declarative_base().
 from datetime import datetime
 from sqlalchemy import Column, String, Integer, Date, Float, ForeignKey
 from app.db import Base

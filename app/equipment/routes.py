@@ -1,3 +1,4 @@
+# routes for Equipment
 from fastapi import APIRouter, Depends
 from app.equipment.controller import EquipmentController, AssignedEquipmentController
 from app.equipment.schemas import *

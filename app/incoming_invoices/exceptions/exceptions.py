@@ -1,3 +1,4 @@
+# This class is used to raise an exception when the incoming invoice does not exist in the database.
 class IncomingInvoiceDoesNotExistInTheDatabaseException(Exception):
 
     def __init__(self, message, code):

@@ -1,3 +1,5 @@
+# It's a controller class that contains methods that are used to
+# manipulate data in the database
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.equipment.services import EquipmentService

@@ -1,3 +1,4 @@
+# Routes for invoices
 from fastapi import APIRouter, Depends
 from app.users.controller.user_auth_controller import JWTBearer
 from app.outgoing_invoices.controller import OutgoingInvoicePaymentController, OutgoingInvoiceController

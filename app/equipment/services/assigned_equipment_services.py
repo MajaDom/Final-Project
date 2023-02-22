@@ -1,3 +1,4 @@
+# It's a class that contains methods that are used to create, read, update and delete assigned equipment
 from app.db import SessionLocal
 from app.equipment.repository import AssignedEquipmentRepository
 from app.equipment.exceptions import EquipmentHasBeenAssignedException, AssignedEquipmentDoesNotExistInTheDatabaseException

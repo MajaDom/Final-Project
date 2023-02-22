@@ -1,3 +1,4 @@
+# It's a class that contains methods that are used to manipulate incoming invoices in the database
 from datetime import datetime
 import sqlalchemy
 from sqlalchemy import func

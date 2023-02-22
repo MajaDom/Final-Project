@@ -1,3 +1,5 @@
+# It's a controller class that handles all the logic for the
+# employment contract endpoints
 from fastapi import HTTPException
 from app.users.services import EmploymentContractService
 from app.users.exceptions import EmployeeInactiveException, InvalidInputException, ExistingActiveContractException, \

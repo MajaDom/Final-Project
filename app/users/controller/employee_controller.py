@@ -1,3 +1,5 @@
+# It's a controller class that handles all the logic for the employee
+# endpoints.
 from fastapi import HTTPException, Response
 from app.equipment.models import AssignedEquipment
 from app.users.services import EmployeeService

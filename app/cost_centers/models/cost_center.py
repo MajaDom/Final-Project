@@ -1,3 +1,4 @@
+# The CostCenter class is a model that represents a cost center.
 from sqlalchemy import Column, String, Integer
 from app.db import Base
 

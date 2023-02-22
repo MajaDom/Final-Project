@@ -1,3 +1,4 @@
+# It's a repository class that handles all the database operations for the AssignedEquipment model
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError

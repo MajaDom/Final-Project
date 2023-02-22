@@ -1,9 +1,11 @@
+""" It's a controller class that handles all the requests for the client contract model"""
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.clients.services import ClientContractService
 from app.clients.exceptions import ContractNotFoundException, InvalidInputException
 
 
+# This class is responsible for handling all the client contract related operations
 class ClientContractController:
 
     @staticmethod
@@ -21,7 +23,7 @@ class ClientContractController:
         except InvalidInputException as e:
             raise HTTPException(status_code=e.code, detail=f"Unprocessed error: {e.message}")
         except Exception as e:
-            raise e
+            raise HTTPException(status_code=400, detail=str(e))
 
     @staticmethod
     def get_all_client_contracts():

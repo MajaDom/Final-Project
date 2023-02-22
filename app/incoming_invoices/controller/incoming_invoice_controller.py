@@ -1,3 +1,5 @@
+# It's a controller class that contains methods that are used to
+# manipulate incoming invoices in the database
 from fastapi import HTTPException, Response
 from app.incoming_invoices.services import IncomingInvoiceService
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException
@@ -62,7 +64,8 @@ class IncomingInvoiceController:
                 description_invoice=description_invoice,
                 cost_center_id=cost_center_id)
             return incoming_invoice
-
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except IncomingInvoiceDoesNotExistInTheDatabaseException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:

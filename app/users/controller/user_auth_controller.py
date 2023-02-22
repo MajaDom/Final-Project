@@ -1,3 +1,4 @@
+# It inherits from the HTTPBearer class and overrides the __call__ method
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.users.services import decode_jwt

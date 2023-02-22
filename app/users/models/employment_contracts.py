@@ -1,3 +1,4 @@
+# EmploymentContract is a class that represents a table in the database
 from datetime import datetime
 from sqlalchemy import Column, String, ForeignKey, Date, Float, Boolean, Integer
 from app.db import Base

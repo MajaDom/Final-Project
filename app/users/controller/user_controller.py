@@ -1,3 +1,4 @@
+# This class is responsible for all user related actions.
 from fastapi import HTTPException, Response
 from app.users.services import UserServices, sign_jwt
 from app.users.exceptions import *

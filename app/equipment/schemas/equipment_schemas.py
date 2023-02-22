@@ -1,3 +1,4 @@
+# The EquipmentSchema class is a pydantic model that defines the schema of the equipment table in the database
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel

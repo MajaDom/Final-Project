@@ -1,3 +1,4 @@
+# It's a class that contains methods that are used to interact with the database
 from app.db import SessionLocal
 from app.equipment.repository import EquipmentRepository
 

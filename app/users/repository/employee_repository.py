@@ -1,3 +1,4 @@
+# It's a class that contains methods that perform CRUD operations on the Employee table in the database
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.users.models import Employee

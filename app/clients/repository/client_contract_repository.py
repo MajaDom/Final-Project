@@ -1,9 +1,11 @@
+# This class is a repository class that contains methods that perform CRUD operations on the client contract table
 from sqlalchemy.orm import Session
 from datetime import datetime
 from app.clients.models import ClientContract
 from app.clients.exceptions import ContractNotFoundException, InvalidInputException
 
 
+# > This class is responsible for retrieving client contracts from the database
 class ClientContractRepository:
     def __init__(self, db: Session):
         self.db = db

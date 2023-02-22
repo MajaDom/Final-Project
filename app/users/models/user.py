@@ -1,3 +1,4 @@
+# It defines the User class, which is a Python representation of the users table in the database
 from uuid import uuid4
 from sqlalchemy import Column, String, Boolean
 from app.db import Base

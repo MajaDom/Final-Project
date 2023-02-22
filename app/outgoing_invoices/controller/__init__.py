@@ -1,2 +1,3 @@
+# Importing the OutgoingInvoiceController class from the outgoing_invoices_controller.py file.
 from .outgoing_invoices_controller import OutgoingInvoiceController
 from .outgoing_invoice_payments_controller import OutgoingInvoicePaymentController

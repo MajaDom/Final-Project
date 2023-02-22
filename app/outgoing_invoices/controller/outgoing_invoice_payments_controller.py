@@ -1,3 +1,5 @@
+# It contains methods that are used to create, read, update and delete
+# outgoing invoice payments
 from fastapi import HTTPException, Response
 from app.outgoing_invoices.services import OutgoingInvoicePaymentService
 from app.outgoing_invoices.exceptions import OutgoingInvoiceDoesNotExistInTheDatabaseException, \
@@ -52,6 +54,8 @@ class OutgoingInvoicePaymentController:
                 payment_date=payment_date, payment_description=payment_description,
                 payment=payment, outgoing_invoice_id=outgoing_invoice_id)
             return outgoing_invoice_payment
+        except InvalidInputException as e:
+            raise HTTPException(status_code=e.code, detail=e.message)
         except OutgoingInvoicePaymentDoesNotExistInTheDatabaseException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
         except Exception as e:

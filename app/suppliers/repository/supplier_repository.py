@@ -1,3 +1,4 @@
+# It's a class that contains methods that allow you to perform CRUD operations on the suppliers table in the database
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.suppliers.exceptions import *

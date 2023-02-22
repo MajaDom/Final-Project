@@ -1,3 +1,4 @@
+# The Employee class is a model that represents the employees table in the database
 from sqlalchemy import Column, String, ForeignKey, Integer, Boolean
 from app.db import Base
 

@@ -1,3 +1,5 @@
+# This class is a repository class that contains all the methods that
+# are used to interact with the cost center table in the database
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.cost_centers.models import CostCenter

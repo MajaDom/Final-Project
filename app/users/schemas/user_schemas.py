@@ -1,4 +1,4 @@
-
+# A schema for the user model.
 from pydantic import BaseModel
 from pydantic import UUID4, EmailStr
 from pydantic.typing import Optional

@@ -1,3 +1,4 @@
+# This class is a repository class that contains all the methods that are used to interact with the database
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.users.exceptions import UserNotFoundException

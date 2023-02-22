@@ -1,3 +1,4 @@
+# The CostCenterSchema class is a pydantic model that defines the schema of the CostCenter table
 from typing import Optional
 from pydantic import BaseModel
 

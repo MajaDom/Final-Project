@@ -1,3 +1,4 @@
+# It's a class that represents a table Equipment in a database
 from app.db import Base
 from sqlalchemy import Column, String, Integer, Date, Float
 from datetime import datetime

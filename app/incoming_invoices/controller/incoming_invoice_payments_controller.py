@@ -1,3 +1,4 @@
+# It's a controller class that handles incoming invoice payments
 from fastapi import HTTPException, Response
 from app.incoming_invoices.services import IncomingInvoicePaymentService
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException, \

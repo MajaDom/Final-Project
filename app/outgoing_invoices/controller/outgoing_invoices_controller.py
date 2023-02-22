@@ -1,3 +1,5 @@
+# It's a controller class that contains methods that are used to
+# create, read, update and delete outgoing invoices
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.outgoing_invoices.services import OutgoingInvoicesService

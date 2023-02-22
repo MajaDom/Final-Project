@@ -1,3 +1,4 @@
+# A schema for the outgoing invoice.
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel

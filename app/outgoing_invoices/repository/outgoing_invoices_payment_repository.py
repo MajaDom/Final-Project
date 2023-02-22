@@ -1,3 +1,4 @@
+# It's a repository class that contains methods for creating, reading, updating and deleting outgoing invoice payments
 from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -65,6 +66,8 @@ class OutgoingInvoicePaymentRepository:
         if payment_description is not None and payment_description != "":
             outgoing_invoice_payment.payment_description = payment_description
         if payment is not None and payment != "":
+            if payment < 0:
+                raise InvalidInputException(code=400, message="Invalid Input.")
             outgoing_invoice_payment.payment = payment
         if outgoing_invoice_id is not None and outgoing_invoice_id != "":
             outgoing_invoice_payment.outgoing_invoice_id = outgoing_invoice_id

@@ -1,3 +1,4 @@
+# The OutgoingInvoice class is a representation of the outgoing_invoices table in the database
 from datetime import datetime
 from sqlalchemy import Column, String, Integer, Boolean, Date, Float, ForeignKey
 from app.db import Base

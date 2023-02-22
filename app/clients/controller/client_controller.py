@@ -1,9 +1,11 @@
+"""Client Controller"""
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.clients.services import ClientService
 from app.clients.exceptions import ClientWithIdDoesNotExistInTheDatabaseException
 
 
+# > This class is responsible for handling the client's requests
 class ClientController:
 
     @staticmethod

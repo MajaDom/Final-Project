@@ -1,3 +1,4 @@
+# It's a class that contains methods that interact with the database
 from sqlalchemy.exc import IntegrityError
 from app.db import SessionLocal
 from app.clients.repository import ClientContractRepository

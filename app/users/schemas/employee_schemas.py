@@ -1,3 +1,4 @@
+# EmployeeSchema is the class that will be used to serialize the data from the database
 from typing import Optional
 from pydantic import BaseModel
 

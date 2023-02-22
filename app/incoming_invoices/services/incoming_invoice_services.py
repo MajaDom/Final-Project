@@ -1,3 +1,4 @@
+# It's a class that contains methods that are used to create, read, update and delete incoming invoices
 from app.db import SessionLocal
 from app.incoming_invoices.repository import IncomingInvoiceRepository, IncomingInvoicePaymentRepository
 

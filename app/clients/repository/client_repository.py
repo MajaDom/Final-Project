@@ -1,3 +1,4 @@
+# This class is a repository class that handles all the database operations for the client model
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from app.clients.models import Client

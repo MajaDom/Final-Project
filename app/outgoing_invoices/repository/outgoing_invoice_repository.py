@@ -1,3 +1,5 @@
+# This class is a repository for outgoing invoices. It contains methods for creating, reading, updating and deleting
+# outgoing invoices
 from datetime import datetime
 import sqlalchemy
 from sqlalchemy import func

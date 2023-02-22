@@ -1,3 +1,4 @@
+# It's a class that represents a supplier
 from sqlalchemy import Column, Integer, String
 from app.db import Base
 

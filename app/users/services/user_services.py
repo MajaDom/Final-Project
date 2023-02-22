@@ -1,3 +1,5 @@
+# It provides methods for creating, reading, updating, deleting and
+# logging in users.
 import hashlib
 from app.db import SessionLocal
 from app.users.exceptions import UserInvalidPassword

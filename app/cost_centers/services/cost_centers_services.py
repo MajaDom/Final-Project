@@ -1,3 +1,4 @@
+# It's a class that contains methods that allow us to perform CRUD operations on the cost center table
 from app.db import SessionLocal
 from app.cost_centers.repository import CostCenterRepository
 

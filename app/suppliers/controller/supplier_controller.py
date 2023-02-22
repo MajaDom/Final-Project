@@ -1,3 +1,4 @@
+# It contains methods that allow you to create, read, update and delete suppliers in the database
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.suppliers.services import SupplierService

@@ -1,3 +1,4 @@
+# Main file
 import uvicorn
 from fastapi import FastAPI
 from starlette.responses import RedirectResponse
@@ -14,7 +15,8 @@ Base.metadata.create_all(bind=engine)
 
 
 def init_app():
-    app = FastAPI()
+    """Functions that runs all routes"""
+    app = FastAPI(ui_config={"syntaxHighlight.theme": "obsidian"})
     app.include_router(user_router)
     app.include_router(employee_router)
     app.include_router(employment_contract_router)

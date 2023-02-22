@@ -19,7 +19,7 @@ def create_user(user: UserSchemaIN):
     return UserController.create_user(user_name=user.user_name, email=user.email, password=user.password)
 
 
-@user_router.post("/create-new-admin-user", response_model=UserSchema, dependencies=[Depends(JWTBearer("super_user"))])
+@user_router.post("/create-new-admin-user", response_model=UserSchema)
 def create_admin_user(user: UserSchemaIN):
     """
     - Method that activates user based on the user id provided.

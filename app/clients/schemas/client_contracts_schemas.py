@@ -1,3 +1,4 @@
+# The ClientContractSchema class is a Pydantic model that defines the schema of the ClientContract table
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel
@@ -15,6 +16,7 @@ class ClientContractSchema(BaseModel):
         orm_mode = True
 
 
+# A class that defines the schema of the data that will be passed into the function.
 class ClientContractSchemaIN(BaseModel):
     contract_code: str
     start_date: str
@@ -26,6 +28,7 @@ class ClientContractSchemaIN(BaseModel):
         orm_mode = True
 
 
+# > This class is used to update a client contract
 class ClientContractSchemaUpdate(BaseModel):
     contract_code: Optional[str]
     start_date: Optional[str]

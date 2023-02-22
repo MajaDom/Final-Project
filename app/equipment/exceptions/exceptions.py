@@ -1,3 +1,4 @@
+# This class is used to raise an exception when the equipment does not exist in the database.
 class EquipmentDoesNotExistInTheDatabaseException(Exception):
 
     def __init__(self, message, code):

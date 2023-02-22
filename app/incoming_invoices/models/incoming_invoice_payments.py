@@ -1,3 +1,4 @@
+# IncomingInvoicePayment is a class that represents a payment made on an incoming invoice
 from sqlalchemy import Column, String, Integer, Date, Float, ForeignKey
 from datetime import datetime
 from app.db import Base

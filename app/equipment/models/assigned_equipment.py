@@ -1,3 +1,5 @@
+# The class AssignedEquipment is a table in the database that has a primary key, a start date, an end date, an employee
+# id, and an equipment id
 from datetime import datetime
 from sqlalchemy import Column, Integer, Date, ForeignKey
 from app.db import Base

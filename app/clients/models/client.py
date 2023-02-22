@@ -1,7 +1,10 @@
+# It's a class that represents a client
 from sqlalchemy import Column, String, Integer
 from app.db import Base
 
 
+# The Client class is a Python class that inherits from the Base class. It has a client_id, client_name, and contact
+# attribute
 class Client(Base):
     __tablename__ = "clients"
     __table_args__ = {'mysql_engine': 'InnoDB'}

@@ -1,3 +1,4 @@
+# It contains methods that allow you to create, read, update and delete suppliers from the database
 from app.db import SessionLocal
 from app.suppliers.repository import SupplierRepository
 

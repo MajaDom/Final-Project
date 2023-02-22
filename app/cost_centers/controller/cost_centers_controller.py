@@ -1,3 +1,5 @@
+# This class is responsible for handling all the business logic
+# related to cost centers
 from fastapi import HTTPException, Response
 from sqlalchemy.exc import IntegrityError
 from app.cost_centers.services import CostCenterService

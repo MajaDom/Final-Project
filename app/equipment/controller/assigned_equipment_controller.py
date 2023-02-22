@@ -1,3 +1,5 @@
+# It's a controller class that handles all the requests related to
+# assigned equipment
 from fastapi import HTTPException, Response
 from app.equipment.services import AssignedEquipmentService
 from app.equipment.exceptions import AssignedEquipmentDoesNotExistInTheDatabaseException, \

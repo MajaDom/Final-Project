@@ -1,3 +1,4 @@
+# This class is used to raise an exception when a user is not found in the database.
 class UserNotFoundException(Exception):
 
     def __init__(self, message, code):

@@ -1,3 +1,6 @@
+# IncomingInvoicePaymentSchema is the class that is used to return the data to the client.
+# IncomingInvoicePaymentIN is the class that is used to receive the data from the client.
+# IncomingInvoicePaymentUpdate is the class that is used to update the data in the database
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel
