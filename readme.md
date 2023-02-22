@@ -1,6 +1,10 @@
 # Projektni zadatak
 ## Kreiranje aplikacije za vodjenje poslovanja firme
 
+admin:
+username - admin
+password - 123
+
 ### Ciljevi aplikacije:
 * Mogucnost izvrsavanja osnovnih CRUD operacija nad svakom tabelom unutar baze podataka.
 * Evidencija ulaznih i izlaznih troskova (na osnovu ulaznih parametara datuma ili gradilista)
@@ -15,10 +19,10 @@
 
 ### Lista predvidjenih ruta:
 * Create, read, update i delete za svaki od entiteta unutar baze podataka
-* Izvestaj ukupnih ulaznih troskova po mesecima ili u odredjenom vremenskom okviru
-* Izvestaj ukupnih izlaznih troskova po mesecima ili u odredjenom vremenskom okviru
-* Izvestaj ukupnih ulaznih troskova po mesecima ili u odredjenom vremenskom okviru za odredjena gradilista
-* Izvestaj ukupnih izlaznih troskova po mesecima ili u odredjenom vremenskom okviru za odredjena gradilista
+* Izvestaj ukupnih ulaznih troskova po mesecima
+* Izvestaj ukupnih izlaznih troskova po mesecima
+* Izvestaj ukupnih ulaznih troskova po mesecima
+* Izvestaj ukupnih izlaznih troskova po mesecima za odredjena gradilista
 * Kontrola isteka ugovora za zaposlene
 
 
