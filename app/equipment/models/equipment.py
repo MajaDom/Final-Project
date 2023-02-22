@@ -1,7 +1,7 @@
 # It's a class that represents a table Equipment in a database
-from app.db import Base
 from sqlalchemy import Column, String, Integer, Date, Float
 from datetime import datetime
+from app.db import Base
 
 
 class Equipment(Base):
@@ -33,4 +33,3 @@ class Equipment(Base):
         else:
             self.date_of_transaction = datetime.strptime(date_of_transaction, "%Y-%m-%d")
         self.shop_name = shop_name
-

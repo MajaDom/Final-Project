@@ -1,11 +1,11 @@
 # It's a repository class that handles all the database operations
 # for incoming invoice payments.
+from datetime import datetime
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.incoming_invoices.models import IncomingInvoicePayment
 from app.incoming_invoices.exceptions import IncomingInvoiceDoesNotExistInTheDatabaseException, \
     IncomingInvoicePaymentDoesNotExistInTheDatabaseException, InvalidInputException
-from datetime import datetime
 
 
 class IncomingInvoicePaymentRepository:

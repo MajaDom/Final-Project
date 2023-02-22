@@ -98,5 +98,3 @@ class EmployeeService:
                 return employee_repository.deactivate_employee(employee_id=employee_id)
         except Exception as e:
             raise e
-
-

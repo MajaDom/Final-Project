@@ -1,7 +1,7 @@
 # It's a class that represents a payment made on an outgoing invoice
 from datetime import datetime
-from app.db import Base
 from sqlalchemy import Column, String, Integer, Date, Float, ForeignKey
+from app.db import Base
 
 
 class OutgoingInvoicePayment(Base):

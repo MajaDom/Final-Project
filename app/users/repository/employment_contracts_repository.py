@@ -1,9 +1,9 @@
 # This class is a repository for the employment contract model. It contains methods for creating, reading, updating and
 # archiving contracts.
+from datetime import datetime, date, timedelta
 from sqlalchemy.orm import Session
 from app.users.models import EmploymentContract
 from app.users.exceptions import NoActiveContractsForEmployeeException, InvalidInputException
-from datetime import datetime, date, timedelta
 
 
 class EmploymentContractRepository:
