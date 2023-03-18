@@ -1,5 +1,5 @@
 # This class is a repository class that handles all the database operations for the client model
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from app.clients.models import Client
 from app.clients.exceptions import ClientWithIdDoesNotExistInTheDatabaseException
@@ -29,7 +29,7 @@ class ClientRepository:
 
     def read_client_by_id(self, client_id: int) -> Client:
         """Method that returns client data based on client id."""
-        client = self.db.query(Client).filter(Client.client_id == client_id).first()
+        client = self.db.query(Client).options(joinedload(Client.client_contract)).filter(Client.client_id == client_id).first()
         if client is None:
             raise ClientWithIdDoesNotExistInTheDatabaseException(
                 message=f'Client with id {client_id} not in the database.', code=400)

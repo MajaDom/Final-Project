@@ -1,12 +1,15 @@
 # The ClientSchema class is a Pydantic model that defines the data structure of the Client model
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
+from .client_contracts_schemas import ClientContractSchema
 
 
 class ClientSchema(BaseModel):
+    """Class that is used in routes as a response model for clients."""
     client_id: int
     client_name: str
     contact: str
+    client_contract: List[ClientContractSchema]
 
     class Config:
         orm_mode = True

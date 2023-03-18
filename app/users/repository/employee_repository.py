@@ -1,5 +1,5 @@
 # It's a class that contains methods that perform CRUD operations on the Employee table in the database
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from app.users.models import Employee
 from app.users.exceptions import EmployeeNotFoundException
@@ -9,10 +9,12 @@ class EmployeeRepository:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_employee(self, first_name: str, last_name: str, contact: str, user_id: str = None) -> Employee:
+    def create_employee(self, first_name: str, last_name: str, email: str, phone_number: str,
+                        user_id: str = None) -> Employee:
         """Method that creates new employee."""
         try:
-            employee = Employee(first_name=first_name, last_name=last_name, contact=contact, user_id=user_id)
+            employee = Employee(first_name=first_name, last_name=last_name, email=email, phone_number=phone_number,
+                                user_id=user_id)
             self.db.add(employee)
             self.db.commit()
             self.db.refresh(employee)
@@ -34,7 +36,8 @@ class EmployeeRepository:
 
     def read_employee_by_id(self, employee_id: int) -> Employee:
         """Method that returns employee based on employee id."""
-        employee = self.db.query(Employee).filter(Employee.id_employee == employee_id).first()
+        employee = self.db.query(Employee).options(joinedload(Employee.contracts)).filter(
+            Employee.id_employee == employee_id).first()
         if employee is None:
             raise EmployeeNotFoundException(message=f'Employee with id {employee_id} not in the database.', code=400)
         return employee
@@ -53,7 +56,8 @@ class EmployeeRepository:
             raise EmployeeNotFoundException(message=f'No employees wih name {last_name} in the database.', code=400)
         return employee
 
-    def update_employee_by_id(self, employee_id: int, first_name: str = None, last_name: str = None, contact: str = None,
+    def update_employee_by_id(self, employee_id: int, first_name: str = None, last_name: str = None, email: str = None,
+                              phone_number: str = None,
                               user_id: str = None) -> Employee:
         """Method that updates existing values in the database based on employee id."""
         employee = self.db.query(Employee).filter(Employee.id_employee == employee_id).first()
@@ -63,8 +67,10 @@ class EmployeeRepository:
             employee.first_name = first_name
         if last_name is not None and last_name != "":
             employee.last_name = last_name
-        if contact is not None and contact != "":
-            employee.contact = contact
+        if email is not None and email != "":
+            employee.email = email
+        if phone_number is not None and phone_number != "":
+            employee.phone_number = phone_number
         if user_id is not None and user_id != "":
             employee.user_id = user_id
         self.db.add(employee)

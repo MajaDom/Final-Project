@@ -1,8 +1,8 @@
 # Routes for Cilents
 from fastapi import APIRouter, Depends
+from app.clients.schemas import *
 from app.clients.controller import ClientController
 from app.clients.controller import ClientContractController
-from app.clients.schemas import *
 from app.users.controller.user_auth_controller import JWTBearer
 
 client_router = APIRouter(tags=["Client"], prefix="/api/client")

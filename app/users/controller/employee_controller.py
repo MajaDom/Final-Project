@@ -11,11 +11,11 @@ from app.users.exceptions import EmployeeNotFoundException, NoActiveContractsFor
 class EmployeeController:
 
     @staticmethod
-    def create_employee(first_name: str, last_name: str, contact: str, user_id: str = None):
+    def create_employee(first_name: str, last_name: str, phone_number: str, email: str = None, user_id: str = None):
         """Method that creates new employee."""
         try:
-            employee = EmployeeService.create_employee(first_name=first_name, last_name=last_name, contact=contact,
-                                                       user_id=user_id)
+            employee = EmployeeService.create_employee(first_name=first_name, last_name=last_name, email=email,
+                                                       phone_number=phone_number, user_id=user_id)
             return employee
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
@@ -72,13 +72,13 @@ class EmployeeController:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
     @staticmethod
-    def update_employee_by_id(employee_id: int, first_name: str = None, last_name: str = None, contact: str = None,
-                              user_id: str = None):
+    def update_employee_by_id(employee_id: int, first_name: str = None, last_name: str = None, email: str = None,
+                              phone_number: str = None, user_id: str = None):
         """Method that updates existing values in the database based on employee id."""
         try:
             employee = EmployeeService.update_employee_by_id(employee_id=employee_id, first_name=first_name,
-                                                             last_name=last_name,
-                                                             contact=contact, user_id=user_id)
+                                                             last_name=last_name, user_id=user_id, email=email,
+                                                             phone_number=phone_number)
             return employee
         except EmployeeNotFoundException as e:
             raise HTTPException(status_code=e.code, detail=e.message)
@@ -108,7 +108,8 @@ class EmployeeController:
             raise HTTPException(status_code=500, detail=f"Unprocessed error: {str(e)}")
 
     @staticmethod
-    def deactivate_employee_if_conditions_are_met(employee_id: int) -> AssignedEquipment or Response:  # Maybe create new schema
+    def deactivate_employee_if_conditions_are_met(
+            employee_id: int) -> AssignedEquipment or Response:  # Maybe create new schema
         """Method that deactivates (fires) employee, and returns a list of currently assigned equipment if
         there is any."""
         try:

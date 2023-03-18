@@ -6,13 +6,13 @@ from app.users.repository import EmployeeRepository
 class EmployeeService:
 
     @staticmethod
-    def create_employee(first_name: str, last_name: str, contact: str, user_id: str = None):
+    def create_employee(first_name: str, last_name: str, phone_number: str, email: str = None, user_id: str = None):
         """Method that creates new employee."""
         try:
             with SessionLocal() as db:
                 employee_repository = EmployeeRepository(db)
-                return employee_repository.create_employee(first_name=first_name, last_name=last_name, contact=contact,
-                                                           user_id=user_id)
+                return employee_repository.create_employee(first_name=first_name, last_name=last_name, user_id=user_id,
+                                                           email=email, phone_number=phone_number)
         except Exception as e:
             raise e
 
@@ -67,15 +67,15 @@ class EmployeeService:
             raise e
 
     @staticmethod
-    def update_employee_by_id(employee_id, first_name: str = None, last_name: str = None, contact: str = None,
-                              user_id: str = None):
+    def update_employee_by_id(employee_id: int, first_name: str = None, last_name: str = None, user_id: str = None,
+                              email: str = None, phone_number: str = None):
         """Method that updates existing values in the database based on employee id."""
         try:
             with SessionLocal() as db:
                 employee_repository = EmployeeRepository(db)
                 return employee_repository.update_employee_by_id(employee_id=employee_id, first_name=first_name,
-                                                                 last_name=last_name,
-                                                                 contact=contact, user_id=user_id)
+                                                                 last_name=last_name, user_id=user_id, email=email,
+                                                                 phone_number=phone_number)
         except Exception as e:
             raise e
 

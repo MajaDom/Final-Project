@@ -27,6 +27,7 @@ class AssignedEquipmentController:
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
+
     @staticmethod
     def read_all_history_of_assigned_equipment():
         """Method that reads all assigned equipment in the database."""

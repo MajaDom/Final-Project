@@ -120,12 +120,14 @@ def create_employee(employee: EmployeeSchemaIN):
     - Method that creates new employee.
     - **first_name**: mandatory field
     - **last_name**: mandatory field
-    - **contact**: mandatory field, unique field
+    - **email**: not a mandatory field
+    - **phone_number**: mandatory field
     - **user_id**: not mandatory
     - **is_active**: efault value True (it can only be changed using another route)
     """
     return EmployeeController.create_employee(first_name=employee.first_name, last_name=employee.last_name,
-                                              contact=employee.contact, user_id=employee.user_id)
+                                              user_id=employee.user_id, email=employee.email,
+                                              phone_number=employee.phone_number)
 
 
 @employee_router.get("/get-all-employees", response_model=list[EmployeeSchema])
@@ -143,7 +145,7 @@ def get_all_employees_containing_text_in_first_name(text: str):
     return EmployeeController.get_all_employees_containing_text_in_first_name(text=text)
 
 
-@employee_router.get("/get-employee-by-id", response_model=EmployeeSchema)
+@employee_router.get("/get-employee-by-id", response_model=EmployeeSchemaWithContracts)
 def get_employee_by_id(employee_id: int):
     """
     - Method that returns employee based on employee id.
@@ -178,13 +180,13 @@ def update_employee_by_id(employee_id: int, employee: EmployeeSchemaUpdate):
     - Method that updates existing values in the database based on employee id.
     - **first_name**: mandatory field
     - **last_name**: mandatory field
-    - **contact**: mandatory field, unique field
+    - **email**: not mandatory
+    - **phone_number**: not mandatory
     - **user_id**: not mandatory
     - **is_active**: efault value True (it can only be changed using another route)
     """
     return EmployeeController.update_employee_by_id(employee_id=employee_id, first_name=employee.first_name,
-                                                    last_name=employee.last_name,
-                                                    contact=employee.contact, user_id=employee.user_id)
+                                                    last_name=employee.last_name, user_id=employee.user_id)
 
 
 @employee_router.delete("/delete-employee-by-id",
@@ -234,7 +236,9 @@ def create_employment_contract(employment_contract: EmploymentContractSchemaIn):
                                                             end_date=employment_contract.end_date,
                                                             contract_type=employment_contract.contract_type,
                                                             paycheck=employment_contract.paycheck,
-                                                            employee_id=employment_contract.fk_employee_id)
+                                                            employee_id=employment_contract.fk_employee_id,
+                                                            termination_date=employment_contract.termination_date,
+                                                            description_contract=employment_contract.description_contract)
 
 
 @employment_contract_router.get("/get-all-contracts",
@@ -272,7 +276,9 @@ def update_employment_contract(employee_id: int, employment_contract: Employment
                                                                    start_date=employment_contract.start_date,
                                                                    end_date=employment_contract.end_date,
                                                                    contract_type=employment_contract.contract_type,
-                                                                   paycheck=employment_contract.paycheck)
+                                                                   paycheck=employment_contract.paycheck,
+                                                                   termination_date=employment_contract.termination_date,
+                                                                   description_contract=employment_contract.description_contract)
 
 
 @employment_contract_router.put("/archive-contract",

@@ -11,19 +11,14 @@ class EmploymentContractRepository:
         self.db = db
 
     def create_new_contract(self, start_date: str, contract_type: str, paycheck: float,
-                            employee_id: int, end_date: str = None) -> EmploymentContract:
+                            employee_id: int, end_date: str = None, termination_date: str = None,
+                            description_contract: str = None) -> EmploymentContract:
         """Create new employee contract"""
         try:
-            if end_date is not None:
-                conv_start_date = datetime.strptime(start_date, "%Y-%m-%d")
-                conv_end_date = datetime.strptime(end_date, "%Y-%m-%d")
-                if conv_start_date > conv_end_date:
-                    raise InvalidInputException(message="Invalid date input.", code=400)
-            if paycheck < 0:
-                raise InvalidInputException(message="Invalid input for paycheck.", code=400)
             employment_contract = EmploymentContract(start_date=start_date, end_date=end_date,
                                                      contract_type=contract_type, paycheck=paycheck,
-                                                     fk_employee_id=employee_id, is_active=True)
+                                                     fk_employee_id=employee_id, termination_date=termination_date,
+                                                     description_contract=description_contract)
             self.db.add(employment_contract)
             self.db.commit()
             self.db.refresh(employment_contract)
@@ -45,8 +40,8 @@ class EmploymentContractRepository:
         return self.db.query(EmploymentContract).all()
 
     def update_employment_contract(self, employee_id: int, start_date: str = None, end_date: str = None,
-                                   contract_type: str = None,
-                                   paycheck: float = None) -> EmploymentContract:
+                                   contract_type: str = None, paycheck: float = None, description_contract: str = None,
+                                   termination_date: str = None) -> EmploymentContract:
         """Method that updates values from the existing contracts. Only active contracts can be updated."""
         employment_contract = self.db.query(EmploymentContract).filter(
             EmploymentContract.fk_employee_id == employee_id, EmploymentContract.is_active == 1).first()

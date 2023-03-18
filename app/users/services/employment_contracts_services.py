@@ -8,7 +8,8 @@ class EmploymentContractService:
 
     @staticmethod
     def create_new_contract(start_date: str, contract_type: str, paycheck: float,
-                            employee_id, end_date: str = None) -> EmploymentContractRepository:
+                            employee_id, end_date: str = None, termination_date: str = None,
+                            description_contract: str = None) -> EmploymentContractRepository:
         try:
             with SessionLocal() as db:
                 employee = EmployeeRepository(db)
@@ -24,7 +25,9 @@ class EmploymentContractService:
                             code=400)
                 return contract_repo.create_new_contract(start_date=start_date, end_date=end_date,
                                                          contract_type=contract_type,
-                                                         paycheck=paycheck, employee_id=employee_id)
+                                                         paycheck=paycheck, employee_id=employee_id,
+                                                         termination_date=termination_date,
+                                                         description_contract=description_contract)
         except Exception as e:
             raise e
 
@@ -48,14 +51,15 @@ class EmploymentContractService:
 
     @staticmethod
     def update_employment_contract(employee_id: int, start_date: str = None, end_date: str = None,
-                                   contract_type: str = None,
-                                   paycheck: float = None):
+                                   contract_type: str = None, paycheck: float = None, termination_date: str = None,
+                                   description_contract: str = None):
         try:
             with SessionLocal() as db:
                 contract = EmploymentContractRepository(db)
                 return contract.update_employment_contract(employee_id=employee_id, start_date=start_date,
                                                            end_date=end_date, contract_type=contract_type,
-                                                           paycheck=paycheck)
+                                                           paycheck=paycheck, termination_date=termination_date,
+                                                           description_contract=description_contract)
         except Exception as e:
             raise e
 

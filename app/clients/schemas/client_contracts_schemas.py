@@ -1,5 +1,5 @@
 # The ClientContractSchema class is a Pydantic model that defines the schema of the ClientContract table
-from typing import Optional
+from typing import Optional, Literal
 from datetime import date
 from pydantic import BaseModel
 
